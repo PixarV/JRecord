@@ -42,7 +42,7 @@ import net.sf.JRecord.Details.RecordDecider;
 import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.def.IO.builders.ICobolIOBuilder;
-import net.sf.JRecord.common.CommonCodeFields;
+import common.CommonCodeFields;
 import junit.framework.TestCase;
 
 public class TstCobolIOBuilder02 extends TestCase {

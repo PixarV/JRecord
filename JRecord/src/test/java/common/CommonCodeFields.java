@@ -1,4 +1,4 @@
-package net.sf.JRecord.common;
+package common;
 
 import java.io.IOException;
 import java.util.Arrays;

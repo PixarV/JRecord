@@ -50,7 +50,7 @@ import net.sf.JRecord.External.base.RecordEditorCSVWriter;
 import net.sf.JRecord.Log.AbsSSLogger;
 import net.sf.JRecord.Log.TextLog;
 import net.sf.JRecord.Types.Type;
-import net.sf.JRecord.common.CommonCodeFields;
+import common.CommonCodeFields;
 import net.sf.JRecord.common.IO;
 import org.junit.After;
 import org.junit.Assert;
