@@ -1,4 +1,4 @@
-package net.sf.JRecord.cbl2json.zTest.json2cbl.occursDepending.common;
+package xml2cbl.occursDepending.common;
 
 import net.sf.JRecord.Details.AbstractLine;
 
