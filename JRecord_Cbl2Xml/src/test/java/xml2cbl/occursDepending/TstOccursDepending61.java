@@ -11,6 +11,8 @@ import junit.framework.TestCase;
 import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.cbl2xml.Cobol2Xml;
 import net.sf.JRecord.cbl2xml.def.ICobol2Xml;
+import org.junit.Test;
+import xml2cbl.Cb2XmlCode;
 import xml2cbl.TstXmlConstants;
 
 
@@ -145,7 +147,7 @@ public class TstOccursDepending61 extends TestCase {
 	
 
 	public void testConversionToXml1() throws IOException, JAXBException, XMLStreamException {
-		String copybookFileName = TstXmlConstants.COBOL_DIRECTORY + "OccursDependingOn61a.cbl";
+		String copybookFileName = Cb2XmlCode.getFullName("cobol/OccursDependingOn61a.cbl");
 
 		
 		ICobol2Xml cbl2Xml = Cobol2Xml.newCobol2Xml(copybookFileName)
@@ -163,7 +165,7 @@ public class TstOccursDepending61 extends TestCase {
 	}
 
 	public void testConversionToXml2() throws IOException, JAXBException, XMLStreamException {
-		String copybookFileName = TstXmlConstants.COBOL_DIRECTORY + "OccursDependingOn61.cbl";
+		String copybookFileName = Cb2XmlCode.getFullName("cobol/OccursDependingOn61.cbl");
 
 		
 		ICobol2Xml cbl2Xml = Cobol2Xml.newCobol2Xml(copybookFileName)
@@ -184,7 +186,7 @@ public class TstOccursDepending61 extends TestCase {
 
 
 	public void testXmlToCobol() throws IOException, JAXBException, XMLStreamException {
-		String copybookFileName = TstXmlConstants.COBOL_DIRECTORY + "OccursDependingOn61.cbl";
+		String copybookFileName = Cb2XmlCode.getFullName("cobol/OccursDependingOn61.cbl");
 		
 		ICobol2Xml cbl2Xml = Cobol2Xml.newCobol2Xml(copybookFileName)
 				.setDialect(ICopybookDialects.FMT_GNU_COBOL);

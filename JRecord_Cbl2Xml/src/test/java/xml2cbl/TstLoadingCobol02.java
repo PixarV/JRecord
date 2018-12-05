@@ -45,7 +45,7 @@ public class TstLoadingCobol02 extends TestCase {
 
     private static final String[] JAVA_TYPE_NAME = new String[Type.LAST_SYSTEM_TYPE];
 
-    private static final String COPYBOOK_NAME = TstXmlConstants.COBOL_DIRECTORY + "Numeric.cbl";
+    private static final String COPYBOOK_NAME = Cb2XmlCode.getFullName("cobol/Numeric.cbl");
 	private static final String[] FONTS = {
 		Conversion.DEFAULT_ASCII_CHARSET,
 		"cp037"

@@ -4,6 +4,8 @@ dependencies {
     compile project(':cb2xml')
     compile project(':JRecord')
 
+//    testCompile files(this.project(':JRecord').sourceSets.test.output)
+    testCompile project(':JRecord').sourceSets.test.output
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 }
@@ -12,5 +14,18 @@ jar() {
     manifest {
         attributes 'Implementation-Title': 'JRecord cbl2xml module',
                 'Implementation-Version': versionStr
+    }
+}
+
+test {
+    useJUnit {
+        excludeCategories 'testCategories.SlowTest'
+    }
+}
+
+task slowTest(type: Test) {
+    group 'verification'
+    useJUnit {
+        includeCategories 'testCategories.SlowTest'
     }
 }

@@ -32,6 +32,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -39,6 +40,7 @@ import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
 import net.sf.JRecord.Common.Conversion;
+import net.sf.cb2xml.def.Cb2xmlConstants;
 import net.sf.cb2xml.util.XmlUtils;
 
 import org.junit.Assert;
@@ -435,7 +437,8 @@ public class Cb2XmlCode {
 
 
     public static String getFullName(String filename) {
-    	URL resource = Cb2XmlCode.class.getResource(filename);
+		filename = filename.startsWith("/") ? " " : "/" + filename;
+		URL resource = Cb2XmlCode.class.getResource(filename);
     	if (resource == null) {
     		System.out.println(" --> Can not find: " + filename);
     	}

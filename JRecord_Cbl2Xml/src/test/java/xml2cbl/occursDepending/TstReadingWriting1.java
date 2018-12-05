@@ -67,7 +67,7 @@ public class TstReadingWriting1 extends TestCase {
 
 	
 	private void tst(String copybook, int fileOrg, String id, boolean hasValue) throws IOException, RecordException, XMLStreamException, JAXBException {
-		String copybookFileName = TstXmlConstants.COBOL_DIRECTORY + copybook;
+		String copybookFileName = Cb2XmlCode.getFullName("cobol/" + copybook);
 		int i = 0;
 		ICobolIOBuilder ioBuilder = JRecordInterface1.COBOL
 				.newIOBuilder(copybookFileName)
@@ -90,7 +90,7 @@ public class TstReadingWriting1 extends TestCase {
 	      .setDialect(ICopybookDialects.FMT_MAINFRAME);
 		
 
-		String xmlFileName = TstXmlConstants.XML_DIRECTORY + "XmlOut" + id + ".xml";
+		String xmlFileName = Cb2XmlCode.getFullName("xml/XmlOut" + id + ".xml");
 		byte[] bytes = out.toByteArray();
 		//FileOutputStream xmlOut = new FileOutputStream(xmlFileName);
 		ByteArrayOutputStream xmlOut = new ByteArrayOutputStream();

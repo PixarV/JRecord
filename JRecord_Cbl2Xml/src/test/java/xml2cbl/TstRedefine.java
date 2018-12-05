@@ -40,6 +40,8 @@ import net.sf.JRecord.cbl2xml.Cobol2Xml;
 import net.sf.JRecord.cbl2xml.def.ICobol2Xml;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import testCategories.SlowTest;
 
 /**
  * Check cobol2Xml when ther are redefines
@@ -67,6 +69,7 @@ public class TstRedefine {
 					= "<?xml version=\"1.0\" encoding=\"UTF-8\"?><CobolData><the-rec><Base-Data></Base-Data>"
 					+ "<Data><Val1>#</Val1><Val2></Val2><Val3></Val3><Val4>#</Val4></Data></the-rec></CobolData>";
 	@Test
+    @Category(SlowTest.class)
 	public void test01() throws IOException, JAXBException, XMLStreamException {
 		
 		ICobol2Xml c2x = Cobol2Xml.newCobol2Xml(new StringReader(COPYBOOK), "the-rec")
@@ -120,6 +123,7 @@ public class TstRedefine {
 	}
 	
 	@Test
+    @Category(SlowTest.class)
 	public void test02() throws IOException, JAXBException, XMLStreamException {
 		
 		ICobol2Xml c2x = Cobol2Xml.newCobol2Xml(new StringReader(COPYBOOK), "the-rec")
@@ -184,6 +188,7 @@ public class TstRedefine {
 	}
 
 	@Test
+    @Category(SlowTest.class)
 	public void test03() throws IOException, JAXBException, XMLStreamException {
 		
 		ICobol2Xml c2x = Cobol2Xml.newCobol2Xml(new StringReader(COPYBOOK), "the-rec")

@@ -46,7 +46,9 @@ import net.sf.JRecord.schema.jaxb.impl.DoNothingFormat;
 import net.sf.JRecord.schema.jaxb.interfaces.IFormatField;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.xml.sax.SAXException;
+import testCategories.SlowTest;
 
 public class TstCblDataToXml02 {
 
@@ -71,6 +73,7 @@ public class TstCblDataToXml02 {
 
 	//private String firstLine = "TAR5839DCDC - Taras Ave                                                             30-68 Taras Ave                         Altona North                       3025      VICA";
 	@Test
+    @Category(SlowTest.class)
 	public void testData2Xml() throws IOException, SAXException, ParserConfigurationException, RecordException, JAXBException, XMLStreamException {
 		for (String[] d : files) {
 			check(d);

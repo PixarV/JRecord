@@ -45,7 +45,9 @@ import net.sf.JRecord.Option.IReformatFieldNames;
 import net.sf.JRecord.cbl2xml.impl.Cobol2GroupXml;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.xml.sax.SAXException;
+import testCategories.SlowTest;
 
 public class TstCblDataToXml22 {
 

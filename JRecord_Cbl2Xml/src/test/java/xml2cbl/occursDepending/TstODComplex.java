@@ -7,6 +7,8 @@ import java.io.StringReader;
 import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.cbl2xml.Cobol2Xml;
 import net.sf.JRecord.cbl2xml.def.ICobol2Xml;
+import org.junit.experimental.categories.Category;
+import testCategories.SlowTest;
 import xml2cbl.occursDepending.common.ArrayIndex;
 import xml2cbl.occursDepending.common.CblItem;
 import xml2cbl.occursDepending.common.ComplexCobolTreeTest;
@@ -90,6 +92,7 @@ public class TstODComplex {
 
 
 	@Test
+    @Category(SlowTest.class)
 	public void testCompexOccursDepending01() {
 		String cobol = ProcessCobolTree.generateCobol(cblComplex01);
 		
@@ -141,6 +144,7 @@ public class TstODComplex {
 	}
 
 	@Test
+    @Category(SlowTest.class)
 	public void testCompexOccursDepending02() {
 		new ComplexCobolTreeTest(cblComplex02);
 	}
