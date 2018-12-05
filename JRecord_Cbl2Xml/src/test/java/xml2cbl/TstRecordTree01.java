@@ -45,6 +45,7 @@ import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.Option.IReformatFieldNames;
 import net.sf.JRecord.cbl2xml.def.ICobol2Xml;
 import net.sf.JRecord.cbl2xml.impl.Cobol2GroupXml;
+import org.junit.Ignore;
 import xml2cbl.cobol.HierarchyRecordDef;
 
 import org.junit.Test;
@@ -211,6 +212,7 @@ public class TstRecordTree01 {
     
     
  	@Test
+    @Ignore
  	public void testXml2Data01() throws IOException, SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
  		byte[] xml2data;
  		byte[] expected ;
