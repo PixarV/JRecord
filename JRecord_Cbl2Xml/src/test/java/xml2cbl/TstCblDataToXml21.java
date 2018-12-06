@@ -56,7 +56,7 @@ public class TstCblDataToXml21 {
 			{"cb2xml_Output110.xml",  LOC_DOWNLOAD_TXT, "Ams_LocDownload_110.xml"},
 			{"cb2xml_Output102.xml",  LOC_DOWNLOAD_TXT, "Ams_LocDownload_102.xml"},     //-- After updates for comments,
 			{"cb2xml_Output111.xml",  LOC_DOWNLOAD_TXT, "Ams_LocDownload_111.xml"},
-			{"cb2xml_Output112.xml",  "StoreSales5.txt",    "StoreSales5.xml"},          // -- Does not work 0.94
+			{"cb2xml_Output112.xml", "StoreSales5.txt", "StoreSales5.xml"},          // -- Does not work 0.94
 	};
 	
 	//private String firstLine = "TAR5839DCDC - Taras Ave                                                             30-68 Taras Ave                         Altona North                       3025      VICA";
