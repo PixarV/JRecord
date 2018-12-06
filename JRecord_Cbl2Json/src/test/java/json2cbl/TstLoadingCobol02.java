@@ -37,6 +37,7 @@ import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.RecordDetail;
 import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.Types.Type;
+import net.sf.JRecord.cbl2json.Cbl2JsonCode;
 import net.sf.cobolToJson.Cobol2Json;
 import net.sf.cobolToJson.impl.Cobol2JsonImp;
 import junit.framework.TestCase;
@@ -45,7 +46,7 @@ public class TstLoadingCobol02 extends TestCase {
 
     private static final String[] JAVA_TYPE_NAME = new String[Type.LAST_SYSTEM_TYPE];
 
-    private static final String COPYBOOK_NAME = TstXmlConstants.COBOL_DIRECTORY + "Numeric.cbl";
+    private static final String COPYBOOK_NAME = Cbl2JsonCodeTest.getFullName("cobol/Numeric.cbl");
 	private static final String[] FONTS = {
 		Conversion.DEFAULT_ASCII_CHARSET,
 		"cp037"

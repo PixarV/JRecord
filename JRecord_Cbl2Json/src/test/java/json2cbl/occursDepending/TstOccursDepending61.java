@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 
+import json2cbl.Cbl2JsonCodeTest;
 import junit.framework.TestCase;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Numeric.ICopybookDialects;
@@ -146,7 +147,7 @@ public class TstOccursDepending61 extends TestCase {
 	
 
 	public void testConversionToXml1() throws IOException, JAXBException, XMLStreamException {
-		String copybookFileName = TstXmlConstants.COBOL_DIRECTORY + "OccursDependingOn61a.cbl";
+		String copybookFileName = Cbl2JsonCodeTest.getFullName("cobol/OccursDependingOn61a.cbl");
 
 		
 		ICobol2Json cbl2Xml = Cobol2Json.newCobol2Json(copybookFileName)
@@ -164,7 +165,7 @@ public class TstOccursDepending61 extends TestCase {
 	}
 
 	public void testConversionToXml2() throws IOException, JAXBException, XMLStreamException {
-		String copybookFileName = TstXmlConstants.COBOL_DIRECTORY + "OccursDependingOn61.cbl";
+		String copybookFileName = Cbl2JsonCodeTest.getFullName("cobol/OccursDependingOn61.cbl");
 
 		
 		ICobol2Json cbl2Xml = Cobol2Json.newCobol2Json(copybookFileName)

@@ -16,3 +16,16 @@ jar() {
                 'Implementation-Version': versionStr
     }
 }
+
+test {
+    useJUnit {
+        excludeCategories 'testCategories.SlowTest'
+    }
+}
+
+task slowTest(type: Test) {
+    group 'verification'
+    useJUnit {
+        includeCategories 'testCategories.SlowTest'
+    }
+}

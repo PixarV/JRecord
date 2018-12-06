@@ -14,6 +14,8 @@ import net.sf.cobolToJson.Cobol2Json;
 import net.sf.cobolToJson.def.ICobol2Json;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import testCategories.SlowTest;
 
 public class TstODComplex {
 
@@ -90,6 +92,7 @@ public class TstODComplex {
 
 
 	@Test
+	@Category(SlowTest.class)
 	public void testCompexOccursDepending01() {
 		String cobol = ProcessCobolTree.generateCobol(cblComplex01);
 		
@@ -141,6 +144,7 @@ public class TstODComplex {
 	}
 
 	@Test
+    @Category(SlowTest.class)
 	public void testCompexOccursDepending02() {
 		new ComplexCobolTreeTest(cblComplex02);
 	}

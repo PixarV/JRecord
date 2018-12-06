@@ -280,6 +280,7 @@ public class Cbl2JsonCodeTest {
 
 
     public static String getFullName(String filename) {
+		filename = filename.startsWith("/") ? " " : "/" + filename;
     	URL resource = Cbl2JsonCodeTest.class.getResource(filename);
     	if (resource == null) {
     		System.out.println(" --> Can not find: " + filename);
