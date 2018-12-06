@@ -78,13 +78,13 @@ public class TstCblDataToJson102 {
 			RecordException, IOException, JAXBException {
 		String copybookName;
 		String dataName;
-		String xmlData = Cbl2JsonCode.loadFile(Cbl2JsonCode.getFullName("json/" + d[2]), "\r\n", false);
+		String xmlData = Cbl2JsonCodeTest.loadFile(Cbl2JsonCodeTest.getFullName("json/" + d[2]), "\r\n", false);
 		
 		for (int tf : TAG_FORMATS) {
 			tagFormat = tf;
 			System.out.println("Checking: " + d[0] + ", " + tf);
-			copybookName = Cbl2JsonCode.getFullName("cobol/" + d[0]);
-			dataName = Cbl2JsonCode.getFullName(d[1]);
+			copybookName = Cbl2JsonCodeTest.getFullName("cobol/" + d[0]);
+			dataName = Cbl2JsonCodeTest.getFullName(d[1]);
 	
 			byte[] doc;
 			if ("1".equals(d[3])) {
@@ -103,7 +103,7 @@ public class TstCblDataToJson102 {
 			System.out.println();
 //			System.out.println(new String(doc));
 	
-			Cbl2JsonCode.compareXmlStr("File: " + tf + ", " + copybookName,  ReformatJson.reformatJson(tf, xmlData), doc);
+			Cbl2JsonCodeTest.compareXmlStr("File: " + tf + ", " + copybookName,  ReformatJson.reformatJson(tf, xmlData), doc);
 		}
 	} 
 	

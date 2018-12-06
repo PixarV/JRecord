@@ -1,33 +1,16 @@
 package json2cbl;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
-
-import java.net.URL;
+import net.sf.JRecord.Common.Conversion;
+import net.sf.cb2xml.util.XmlUtils;
+import org.junit.Assert;
+import org.junit.internal.ArrayComparisonFailure;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-
-import net.sf.JRecord.Common.Conversion;
-import net.sf.cb2xml.util.XmlUtils;
-
-import org.junit.Assert;
-import org.junit.internal.ArrayComparisonFailure;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.*;
+import java.net.URL;
 
 
 /**
@@ -35,7 +18,7 @@ import org.xml.sax.SAXException;
  * @author Bruce Martin
  *
  */
-public class Cbl2JsonCode {
+public class Cbl2JsonCodeTest {
 
 	public static final boolean IS_MAC, IS_NIX, IS_WINDOWS;
 	
@@ -103,7 +86,7 @@ public class Cbl2JsonCode {
 
 	public static void compare(String id, String e, String a) {
 		if (e.length() != a.length()) {
-			if (Cbl2JsonCode.IS_NIX) {
+			if (Cbl2JsonCodeTest.IS_NIX) {
 				e = Conversion.replace(e, "\r\n", "\n").toString();
 			}
 		}
@@ -297,7 +280,7 @@ public class Cbl2JsonCode {
 
 
     public static String getFullName(String filename) {
-    	URL resource = Cbl2JsonCode.class.getResource(filename);
+    	URL resource = Cbl2JsonCodeTest.class.getResource(filename);
     	if (resource == null) {
     		System.out.println(" --> Can not find: " + filename);
     	}

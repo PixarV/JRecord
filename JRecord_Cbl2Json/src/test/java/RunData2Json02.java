@@ -4,14 +4,14 @@ import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 
 import net.sf.JRecord.Common.RecordException;
-import json2cbl.Cbl2JsonCode;
+import json2cbl.Cbl2JsonCodeTest;
 import net.sf.cobolToJson.Data2Json;
 
 
 public class RunData2Json02 {
 
 	public static void main(String[] args) throws RecordException, IOException, JAXBException, XMLStreamException {
-		String cbl1 =  Cbl2JsonCode.getFullName("cobol/amsPoDownload.cbl");
+		String cbl1 =  Cbl2JsonCodeTest.getFullName("cobol/amsPoDownload.cbl");
 		String forgText = "text";
 		String poRec = "PO-Record";
 		String recType = "Record-Type";
@@ -20,7 +20,7 @@ public class RunData2Json02 {
 		String poValue = "H1";
 		String productValue = "D1";
 		String storeValue = "S1";
-		String in1 = Cbl2JsonCode.getFullName("Ams_PODownload_20041231.txt");
+		String in1 = Cbl2JsonCodeTest.getFullName("Ams_PODownload_20041231.txt");
 		String out1 = "G:/Temp/Ams_PODownload_20041231_batch_Tree.json";
 		String out2 = "G:/Temp/Ams_PODownload_20041231_batch.json";
 

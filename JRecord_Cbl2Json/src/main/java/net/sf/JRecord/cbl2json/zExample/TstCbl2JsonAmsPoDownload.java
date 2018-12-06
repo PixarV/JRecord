@@ -7,7 +7,7 @@ import javax.xml.bind.JAXBException;
 import net.sf.JRecord.Common.Constants;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.Option.IReformatFieldNames;
-import json2cbl.Cbl2JsonCode;
+import net.sf.JRecord.cbl2json.Cbl2JsonCode;
 import net.sf.cobolToJson.Cobol2Json;
 
 public class TstCbl2JsonAmsPoDownload {

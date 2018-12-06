@@ -93,13 +93,13 @@ public class TstCblDataToJson101 {
 		String copybookName;
 		String dataName;
 
-		String jsonData = Cbl2JsonCode.loadFile(Cbl2JsonCode.getFullName("json/" + d[2]), "\r\n", false);
+		String jsonData = Cbl2JsonCodeTest.loadFile(Cbl2JsonCodeTest.getFullName("json/" + d[2]), "\r\n", false);
 		
 		for (int tf : TAG_FORMATS) {
 			tagFormat = tf;
 			System.out.println("Checking: " + d[0] + ", " + tf);
-			copybookName = Cbl2JsonCode.getFullName("cobol/" + d[0]);
-			dataName = Cbl2JsonCode.getFullName(d[1]);
+			copybookName = Cbl2JsonCodeTest.getFullName("cobol/" + d[0]);
+			dataName = Cbl2JsonCodeTest.getFullName(d[1]);
 			
 			byte[] doc = data2json(dataName, copybookName, "Y".equalsIgnoreCase(d[3]),  d[4]);
 			
@@ -111,7 +111,7 @@ public class TstCblDataToJson101 {
 		
 //		xmlDataName = Cb2XmlCode.getFullName("xml/" + d[2]);
 //		Cb2XmlCode.compare("File: " + copybookName,  xmlDataName, doc);
-			Cbl2JsonCode.compareXmlStr("File: " + tf + ", " + copybookName,  ReformatJson.reformatJson(tf, jsonData), doc);
+			Cbl2JsonCodeTest.compareXmlStr("File: " + tf + ", " + copybookName,  ReformatJson.reformatJson(tf, jsonData), doc);
 		}
 	} 
 	
@@ -120,13 +120,13 @@ public class TstCblDataToJson101 {
 		String copybookName;
 		String dataName;
 
-		String jsonData = Cbl2JsonCode.loadFile(Cbl2JsonCode.getFullName("json/" + d[2]), "\r\n", false);
+		String jsonData = Cbl2JsonCodeTest.loadFile(Cbl2JsonCodeTest.getFullName("json/" + d[2]), "\r\n", false);
 		
 
 		tagFormat = IReformatFieldNames.RO_CAMEL_CASE;
 		System.out.println("Checking: " + d[0] + ", " + tagFormat);
-		copybookName = Cbl2JsonCode.getFullName("cobol/" + d[0]);
-		dataName = Cbl2JsonCode.getFullName(d[1]);
+		copybookName = Cbl2JsonCodeTest.getFullName("cobol/" + d[0]);
+		dataName = Cbl2JsonCodeTest.getFullName(d[1]);
 		
 		byte[] doc = data2json(dataName, copybookName, "Y".equalsIgnoreCase(d[3]),  d[4]);
 		
