@@ -121,51 +121,11 @@ public class Cb2Xml2 {
 
 		Reader sr;
 		
-		if (is == null) {			
-//			switch (format) {
-//			case Cb2xmlConstants.FREE_FORMAT:
-//				sr = new FileReader(file);
-//				initialColumn = 0;
-//				break;
-//			case Cb2xmlConstants.USE_STANDARD_COLUMNS:
-//			case Cb2xmlConstants.USE_COLS_6_TO_80:
-//			case Cb2xmlConstants.USE_LONG_LINE:
-//				preProcessed = CobolPreprocessor.preProcess(new FileInputStream(file), FIRST_COBOL_COLUMN, END_COLS[format]);
-//				sr = new StringReader(preProcessed);
-//				break;
-//			case Cb2xmlConstants.USE_SUPPLIED_COLUMNS:
-//			    preProcessed = CobolPreprocessor.preProcess(new FileInputStream(file), firstColumn, lastColumn);
-//			    sr = new StringReader(preProcessed);
-//			    break;
-//			default:
-//				preProcessed = CobolPreprocessor.preProcess(new FileInputStream(file));
-//				sr = new StringReader(preProcessed);
-//				break;
-//			}
+		if (is == null) {
 			sr = new FileReader(file);
 			name = file.getName();
 		} else {
 			sr = new InputStreamReader(is);
-//			switch (format) {
-//			case Cb2xmlConstants.FREE_FORMAT:
-//				sr = new InputStreamReader(is);
-//				initialColumn = 0;
-//				break;
-//			case Cb2xmlConstants.USE_STANDARD_COLUMNS:
-//			case Cb2xmlConstants.USE_COLS_6_TO_80:
-//			case Cb2xmlConstants.USE_LONG_LINE:
-//				preProcessed = CobolPreprocessor.preProcess(is, FIRST_COBOL_COLUMN, END_COLS[format]);
-//				sr = new StringReader(preProcessed);
-//				break;
-//			case Cb2xmlConstants.USE_SUPPLIED_COLUMNS:
-//				preProcessed = CobolPreprocessor.preProcess(is, firstColumn, lastColumn);
-//				sr = new StringReader(preProcessed);
-//				break;
-//			default:
-//				preProcessed = CobolPreprocessor.preProcess(is);
-//				sr = new StringReader(preProcessed);
-//				break;
-//			}
 		}
 		
 		return convert(sr, name, debug, format, firstColumn, lastColumn);

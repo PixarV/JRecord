@@ -9,7 +9,7 @@ import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Numeric.ICopybookDialects;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.def.IO.builders.ICobolIOBuilder;
-import net.sf.JRecord.common.CommonCodeFields;
+import common.CommonCodeFields;
 import junit.framework.TestCase;
 
 
