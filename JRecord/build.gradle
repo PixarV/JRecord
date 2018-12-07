@@ -25,6 +25,9 @@ test {
     useJUnit {
         excludeCategories 'testCategories.SlowTest'
     }
+    reports {
+        junitXml.enabled = true
+    }
 }
 
 task slowTest(type: Test) {
