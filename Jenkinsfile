@@ -1,8 +1,9 @@
 node {
     jdk = tool name: 'Java11'
     env.JAVA_HOME = "${jdk}"
-    stage("checkout") {
+    stage("Pre-build") {
         checkout scm
+        sh './gradlew clean'
     }
     stage("Compile project") {
         sh './gradlew compileJava'
