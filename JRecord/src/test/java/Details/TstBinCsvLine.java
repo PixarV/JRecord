@@ -82,7 +82,7 @@ public class TstBinCsvLine extends TestCase {
                     if (o != null) {
                         t = o.toString();
                     }
-                    assertEquals("Comparing a2 " + i + "' " + j + ",  " + k, "Y", t);
+                    assertEquals("Comparing a2 " + i + "' " + j + ",  " + k, "", t);
                 }
             }
             v *= 10;
