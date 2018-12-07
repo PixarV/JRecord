@@ -1,4 +1,6 @@
 node {
+    jdk = tool name: 'Java11'
+    env.JAVA_HOME = "${jdk}"
     stage("checkout") {
         checkout scm
     }
