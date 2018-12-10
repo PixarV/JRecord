@@ -25,9 +25,7 @@ pipeline {
         }
         stage("Test slow") {
             if (env.BRANCH_NAME == 'develop') {
-                steps {
-                    sh './gradlew slowTest'
-                }
+                sh './gradlew slowTest'
             }
         }
         stage("Assemble") {
