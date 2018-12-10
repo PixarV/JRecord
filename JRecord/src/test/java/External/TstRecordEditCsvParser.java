@@ -60,7 +60,6 @@ import org.junit.Test;
  * Testing RecordEditorCSVReader/Writer classes
  *
  * @author Bruce Martin
- *
  */
 public class TstRecordEditCsvParser {
     private static final String PATH = "";
@@ -68,114 +67,21 @@ public class TstRecordEditCsvParser {
 //	private final String csvDdirectory = "/home/bm/Work/RecordEditor/CsvCopybooks/";
 //	private final String csvDirectory1 = "/home/bm/Work/RecordEditor/CsvCopybooks/Output/";
 
-    private final String       poFileName = PATH + "poDtl.Txt";
+    private final String poFileName = PATH + "poDtl.Txt";
     private final String poHeaderFileName = PATH + "poDtl_Header.Txt";
-    private final String    poSkuFileName = PATH + "poDtl_Sku.Txt";
-    private final String      poFileNameO = PATH + "poDtl.Txt";
+    private final String poSkuFileName = PATH + "poDtl_Sku.Txt";
+    private final String poFileNameO = PATH + "poDtl.Txt";
 
-    private String eol    = "\n";
-    private String [] poDetailLines = {
-            "Record	0	9	<Tab>	0		Y	Ams PO Record",
-            "SR	poDtl_Header	Record Type	H1	-1	N",
-            "SR	poDtl_Sku	Record Type	D1	0	N"
-    };
-    private String [] poDetailHeaderLines = {
-            "Record	0	1	<Tab>	0		N	ams PO Download: Header",
-            "1	2	Record Type		0	0	0	",
-            "3	5	Sequence Number		8	3	0	",
-            "8	10	Vendor		7	0	0	",
-            "18	12	PO		8	0	0	",
-            "30	6	Entry Date	Format YYMMDD	0	0	0	",
-            "36	8	Filler		0	0	0	",
-            "44	2	beg01 code		0	0	0	",
-            "46	2	beg02 code		0	0	0	",
-            "48	4	Department		0	0	0	",
-            "52	6	Expected Reciept Date	Format YYMMDD	0	0	0	",
-            "58	6	Cancel by date	Format YYMMDD	0	0	0	",
-            "68	1	EDI Type		0	0	0	",
-            "69	6	Add Date	Format YYMMDD	0	0	0	",
-            "75	1	Filler		0	0	0	",
-            "76	10	Department Name		0	0	0	",
-            "86	1	Prcoess Type	C/N Conveyable/Non-Conveyable	0	0	0	",
-            "87	2	Order Type		0	0	0	",
-    };
-    private String [] poDetailSkuLines = {
-            "Record	0	1	<Tab>	0		N	ams PO Download: Detail",
-            "1	2	Record Type		0	0	0	",
-            "3	9	Pack Qty		8	4	0	",
-            "12	13	Pack Cost		8	4	0	",
-            "25	13	APN		7	0	0	",
-            "38	1	Filler		0	0	0	",
-            "39	8	Product		7	0	0	",
-            "72	15	pmg dtl tech key		0	0	0	",
-            "87	15	Case Pack id		0	0	0	",
-            "101	50	Product Name		0	0	0	",
-    };
+    private String eol = "\n";
+    private String[] poDetailLines = {"Record	0	9	<Tab>	0		Y	Ams PO Record", "SR	poDtl_Header	Record Type	H1	-1	N", "SR	poDtl_Sku	Record Type	D1	0	N"};
+    private String[] poDetailHeaderLines = {"Record	0	1	<Tab>	0		N	ams PO Download: Header", "1	2	Record Type		0	0	0	", "3	5	Sequence Number		8	3	0	", "8	10	Vendor		7	0	0	", "18	12	PO		8	0	0	", "30	6	Entry Date	Format YYMMDD	0	0	0	", "36	8	Filler		0	0	0	", "44	2	beg01 code		0	0	0	", "46	2	beg02 code		0	0	0	", "48	4	Department		0	0	0	", "52	6	Expected Reciept Date	Format YYMMDD	0	0	0	", "58	6	Cancel by date	Format YYMMDD	0	0	0	", "68	1	EDI Type		0	0	0	", "69	6	Add Date	Format YYMMDD	0	0	0	", "75	1	Filler		0	0	0	", "76	10	Department Name		0	0	0	", "86	1	Prcoess Type	C/N Conveyable/Non-Conveyable	0	0	0	", "87	2	Order Type		0	0	0	",};
+    private String[] poDetailSkuLines = {"Record	0	1	<Tab>	0		N	ams PO Download: Detail", "1	2	Record Type		0	0	0	", "3	9	Pack Qty		8	4	0	", "12	13	Pack Cost		8	4	0	", "25	13	APN		7	0	0	", "38	1	Filler		0	0	0	", "39	8	Product		7	0	0	", "72	15	pmg dtl tech key		0	0	0	", "87	15	Case Pack id		0	0	0	", "101	50	Product Name		0	0	0	",};
 
-    private FieldDetail[] SKU_FIELDS = {
-            CommonCodeFields.createField("Record Type", 1, 2, 0, Type.ftChar),
-            CommonCodeFields.createField("Pack Qty", 3, 9, 4, Type.ftAssumedDecimal),
-            CommonCodeFields.createField("Pack Cost", 12, 13, 4, Type.ftAssumedDecimal),
-            CommonCodeFields.createField("APN", 25, 13, 0, Type.ftNumZeroPadded),
-            CommonCodeFields.createField("Filler", 38, 1, 0, Type.ftChar),
-            CommonCodeFields.createField("Product", 39, 8, 0, Type.ftNumZeroPadded),
-            CommonCodeFields.createField("pmg dtl tech key", 72, 15, 0, Type.ftChar),
-            CommonCodeFields.createField("Case Pack id", 87, 15, 0, Type.ftChar),
-            CommonCodeFields.createField("Product Name", 101, 50, 0, Type.ftChar),
-    };
+    private FieldDetail[] SKU_FIELDS = {CommonCodeFields.createField("Record Type", 1, 2, 0, Type.ftChar), CommonCodeFields.createField("Pack Qty", 3, 9, 4, Type.ftAssumedDecimal), CommonCodeFields.createField("Pack Cost", 12, 13, 4, Type.ftAssumedDecimal), CommonCodeFields.createField("APN", 25, 13, 0, Type.ftNumZeroPadded), CommonCodeFields.createField("Filler", 38, 1, 0, Type.ftChar), CommonCodeFields.createField("Product", 39, 8, 0, Type.ftNumZeroPadded), CommonCodeFields.createField("pmg dtl tech key", 72, 15, 0, Type.ftChar), CommonCodeFields.createField("Case Pack id", 87, 15, 0, Type.ftChar), CommonCodeFields.createField("Product Name", 101, 50, 0, Type.ftChar),};
 
     @Test
     public void testLoadCopyBookVariations() throws Exception {
-        String[][] SkuLines = {
-                {
-                        "Record	0	1	<Tab>	0		N	ams PO Download: Detail",
-                        "	2	Record Type		0	0	0	",
-                        "	9	Pack Qty		8	4	0	",
-                        "	13	Pack Cost		8	4	0	",
-                        "	13	APN		7	0	0	",
-                        "	1	Filler		0	0	0	",
-                        "	8	Product		7	0	0	",
-                        "72	15	pmg dtl tech key		0	0	0	",
-                        "	15	Case Pack id		0	0	0	",
-                        "101	50	Product Name		0	0	0	",
-                },
-                {
-                        "Record	0	1	<Tab>	0		N	ams PO Download: Detail",
-                        "1		Record Type		0	0	0	",
-                        "3		Pack Qty		8	4	0	",
-                        "12		Pack Cost		8	4	0	",
-                        "25		APN		7	0	0	",
-                        "38		Filler		0	0	0	",
-                        "39	8	Product		7	0	0	",
-                        "72		pmg dtl tech key		0	0	0	",
-                        "87	15	Case Pack id		0	0	0	",
-                        "101	50	Product Name		0	0	0	",
-                },
-                {
-                        "Record	0	1	<Tab>	0		N	ams PO Download: Detail",
-                        "		Record Type		0	0	0	",
-                        "3	9	Pack Qty		8	4	0	",
-                        "		Pack Cost		8	4	0	",
-                        "25	13	APN		7	0	0	",
-                        "		Filler		0	0	0	",
-                        "39	8	Product		7	0	0	",
-                        "72		pmg dtl tech key		0	0	0	",
-                        "87	15	Case Pack id		0	0	0	",
-                        "101	50	Product Name		0	0	0	",
-                },
-                {
-                        "Record	0	1	<Tab>	0		N	ams PO Download: Detail",
-                        "1	2	Record Type		0	0	0	",
-                        "		Pack Qty		8	4	0	",
-                        "12	13	Pack Cost		8	4	0	",
-                        "		APN		7	0	0	",
-                        "38	1	Filler		0	0	0	",
-                        "	8	Product		7	0	0	",
-                        "72	15	pmg dtl tech key		0	0	0	",
-                        "	15	Case Pack id		0	0	0	",
-                        "101	50	Product Name		0	0	0	",
-                }
-        };
+        String[][] SkuLines = {{"Record	0	1	<Tab>	0		N	ams PO Download: Detail", "	2	Record Type		0	0	0	", "	9	Pack Qty		8	4	0	", "	13	Pack Cost		8	4	0	", "	13	APN		7	0	0	", "	1	Filler		0	0	0	", "	8	Product		7	0	0	", "72	15	pmg dtl tech key		0	0	0	", "	15	Case Pack id		0	0	0	", "101	50	Product Name		0	0	0	",}, {"Record	0	1	<Tab>	0		N	ams PO Download: Detail", "1		Record Type		0	0	0	", "3		Pack Qty		8	4	0	", "12		Pack Cost		8	4	0	", "25		APN		7	0	0	", "38		Filler		0	0	0	", "39	8	Product		7	0	0	", "72		pmg dtl tech key		0	0	0	", "87	15	Case Pack id		0	0	0	", "101	50	Product Name		0	0	0	",}, {"Record	0	1	<Tab>	0		N	ams PO Download: Detail", "		Record Type		0	0	0	", "3	9	Pack Qty		8	4	0	", "		Pack Cost		8	4	0	", "25	13	APN		7	0	0	", "		Filler		0	0	0	", "39	8	Product		7	0	0	", "72		pmg dtl tech key		0	0	0	", "87	15	Case Pack id		0	0	0	", "101	50	Product Name		0	0	0	",}, {"Record	0	1	<Tab>	0		N	ams PO Download: Detail", "1	2	Record Type		0	0	0	", "		Pack Qty		8	4	0	", "12	13	Pack Cost		8	4	0	", "		APN		7	0	0	", "38	1	Filler		0	0	0	", "	8	Product		7	0	0	", "72	15	pmg dtl tech key		0	0	0	", "	15	Case Pack id		0	0	0	", "101	50	Product Name		0	0	0	",}};
 
         System.out.println("Test Variations");
         AbsSSLogger log = new TextLog();
@@ -184,8 +90,7 @@ public class TstRecordEditCsvParser {
         int i = 0;
 
         for (String[] lines : SkuLines) {
-            ExternalRecord copybook = l.loadCopyBook(new StringReader(concatenate(lines)), poSkuFileName,
-                    0, 0, "", CommonBits.getDefaultCobolTextFormat(),  0, 0, log);
+            ExternalRecord copybook = l.loadCopyBook(new StringReader(concatenate(lines)), poSkuFileName, 0, 0, "", CommonBits.getDefaultCobolTextFormat(), 0, 0, log);
 
             CommonCodeFields.checkFields("Po_Dtl_Sku: " + (i++), "", SKU_FIELDS, copybook.asLayoutDetail().getRecord(0));
         }
@@ -199,8 +104,7 @@ public class TstRecordEditCsvParser {
         AbsSSLogger log = new TextLog();
         //IO.writeAFile(poSkuFileName, poDetailSkuLines, eol);
         RecordEditorCsvLoader.Tab l = new RecordEditorCsvLoader.Tab();
-        ExternalRecord copybook = l.loadCopyBook(new StringReader(concatenate(poDetailSkuLines)), poSkuFileName,
-                0, 0, "", CommonBits.getDefaultCobolTextFormat(),  0, 0, log);
+        ExternalRecord copybook = l.loadCopyBook(new StringReader(concatenate(poDetailSkuLines)), poSkuFileName, 0, 0, "", CommonBits.getDefaultCobolTextFormat(), 0, 0, log);
 
         checkSkuCopybook(copybook);
 
@@ -266,7 +170,7 @@ public class TstRecordEditCsvParser {
         String sep = "";
         StringBuilder b = new StringBuilder();
 
-        for (String s: lines) {
+        for (String s : lines) {
             b.append(sep).append(s);
             sep = "\n";
         }
@@ -274,7 +178,7 @@ public class TstRecordEditCsvParser {
         return b.toString();
     }
 
-    private void checkSkuCopybook(ExternalRecord copybook ) {
+    private void checkSkuCopybook(ExternalRecord copybook) {
         Assert.assertEquals("1.1 Check no Sub records", 0, copybook.getNumberOfRecords());
         Assert.assertEquals("1.2 Check Fields = 9; actual=" + copybook.getNumberOfRecordFields(), 9, copybook.getNumberOfRecordFields());
         Assert.assertEquals("1.3 Check File Structure=0; actual=" + copybook.getFileStructure(), 0, copybook.getFileStructure());
@@ -303,6 +207,7 @@ public class TstRecordEditCsvParser {
 
     /**
      * Compare the contents of a file and an array of String
+     *
      * @param lines
      * @param filename
      * @throws IOException
@@ -313,7 +218,7 @@ public class TstRecordEditCsvParser {
         System.out.println(" Starting file: " + filename);
 
         for (int i = 0; i < lines.length; i++) {
-            if (! lines[i].equals(newLines[i])) {
+            if (!lines[i].equals(newLines[i])) {
                 System.out.println();
                 System.out.println("Error file: " + filename + " line: " + i);
                 System.out.println("   > " + lines[i]);
@@ -328,12 +233,11 @@ public class TstRecordEditCsvParser {
      *
      * @param fileName name of file to be read
      * @return file contents
-     *
      * @throws IOException any error that occurred
      */
-    private String [] readFile(String fileName) throws IOException {
+    private String[] readFile(String fileName) throws IOException {
         ArrayList<String> lines = new ArrayList<String>();
-        String[]ret;
+        String[] ret;
         String s;
 
         BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
@@ -344,7 +248,7 @@ public class TstRecordEditCsvParser {
         r.close();
 
         ret = new String[lines.size()];
-        ret =  lines.toArray(ret);
+        ret = lines.toArray(ret);
 
         return ret;
         //	InputS

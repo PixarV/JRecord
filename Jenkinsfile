@@ -9,38 +9,37 @@ pipeline {
     stages {
         stage("Pre-build") {
             steps {
-                    checkout scm
-                    sh './gradlew clean'
-                }
+                checkout scm
+                sh './gradlew clean'
             }
-            stage("Compile project") {
-                steps {
-                    sh './gradlew compileJava'
-                }
+        }
+        stage("Compile project") {
+            steps {
+                sh './gradlew compileJava'
             }
-            stage("Test fast") {
-                steps {
-                    sh './gradlew test'
-                }
+        }
+        stage("Test fast") {
+            steps {
+                sh './gradlew test'
             }
-            stage("Test slow") {
-                when {
-                    branch 'develop'
-                }
-                steps {
-                    sh './gradlew slowTest'
-                }
+        }
+        stage("Test slow") {
+            when {
+                branch 'develop'
             }
-            stage("Assemble") {
-                steps {
-                    sh './gradlew assemble'
-                }
+            steps {
+                sh './gradlew slowTest'
             }
-            stage('Result') {
-                steps {
-                     archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
-                     junit '**/build/test-results/test/TEST-*.xml'
-                 }
+        }
+        stage("Assemble") {
+            steps {
+                sh './gradlew assemble'
+            }
+        }
+        stage('Result') {
+            steps {
+                archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
+                junit '**/build/test-results/test/TEST-*.xml'
             }
         }
     }
