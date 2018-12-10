@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        jdk "${params.JDK_TOOL}"
+        jdk = tool name: 'Java11'
     }
     environment {
         JAVA_HOME = "${jdk}"
