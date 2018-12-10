@@ -13,7 +13,7 @@ node {
     }
     stage("Test slow") {
         when {
-            branch 'hotfix/LGIHRWD-457_add_slow_test_task'
+            branch 'develop'
         }
         steps {
             sh './gradlew slowTest'
