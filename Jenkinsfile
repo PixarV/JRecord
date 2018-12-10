@@ -25,7 +25,7 @@ pipeline {
         }
         stage("Test slow") {
             when {
-                branch 'develop'
+                branch "develop"
             }
             steps {
                 sh './gradlew slowTest'
