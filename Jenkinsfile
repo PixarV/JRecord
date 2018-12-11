@@ -47,8 +47,9 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'uliana_github',
                         passwordVariable: 'GIT_PASSWORD',
                         usernameVariable: 'GIT_USERNAME')]) {
-//                    sh('git push git@github.com:${GIT_USERNAME}/${repo} --tags')
-                    sh('git push https://brainydamage:Gonduras_14@github.com/PixarV/jrecord.git --tags')
+
+                    sh 'git commit -m "Jenkins ${BUILD_ID}"'
+                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git --tags'
                 }
             }
         }
