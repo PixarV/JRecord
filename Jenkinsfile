@@ -48,7 +48,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'uliana_github',
                         passwordVariable: 'GIT_PASSWORD',
                         usernameVariable: 'GIT_USERNAME')]) {
-                    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${repo} --tags')
+                    sh('git push git@github.com:${GIT_USERNAME}/${repo} --tags')
                 }
             }
         }
