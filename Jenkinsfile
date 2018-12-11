@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    def repo = "https://github.com/PixarV/jrecord.git"
     tools {
         jdk 'Java11'
     }
@@ -49,7 +48,7 @@ pipeline {
                         passwordVariable: 'GIT_PASSWORD',
                         usernameVariable: 'GIT_USERNAME')]) {
 //                    sh('git push git@github.com:${GIT_USERNAME}/${repo} --tags')
-                    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${repo} --tags')
+                    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git --tags')
                 }
             }
         }
