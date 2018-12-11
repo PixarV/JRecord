@@ -53,8 +53,6 @@ pipeline {
                     sh 'git config user.name "{GIT_USERNAME}"'
                     sh 'git config user.password "{GIT_PASSWORD}"'
 
-                    sh 'ls -la'
-                    sh 'git status'
                     sh 'git commit -m "Jenkins ${BUILD_ID}"'
                     sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git --tags'
                 }
