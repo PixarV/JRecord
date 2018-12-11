@@ -13,24 +13,24 @@ pipeline {
                 sh './gradlew clean'
             }
         }
-//        stage("Compile project") {
-//            steps {
-//                sh './gradlew compileJava'
-//            }
-//        }
-//        stage("Test fast") {
-//            steps {
-//                sh './gradlew test'
-//            }
-//        }
-//        stage("Test slow") {
-//            when {
-//                branch 'master'
-//            }
-//            steps {
-//                sh './gradlew slowTest'
-//            }
-//        }
+        stage("Compile project") {
+            steps {
+                sh './gradlew compileJava'
+            }
+        }
+        stage("Test fast") {
+            steps {
+                sh './gradlew test'
+            }
+        }
+        stage("Test slow") {
+            when {
+                branch 'master'
+            }
+            steps {
+                sh './gradlew slowTest'
+            }
+        }
         stage("Assemble") {
             steps {
                 sh './gradlew assemble'
