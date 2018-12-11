@@ -1,5 +1,6 @@
 pipeline {
     agent any
+//    def repo = "https://github.com/PixarV/jrecord.git"
     tools {
         jdk 'Java11'
     }
@@ -40,6 +41,13 @@ pipeline {
             steps {
                 archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
                 junit '**/build/test-results/test/TEST-*.xml'
+            }
+        }
+        stage('Push artifacts') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'uliana_github')]) {
+                    sh("git config user.name")
+                }
             }
         }
     }
