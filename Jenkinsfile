@@ -48,8 +48,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'uliana_github',
                         passwordVariable: 'GIT_PASSWORD',
                         usernameVariable: 'GIT_USERNAME')]) {
-                    sh 'git config user.name'
-                    sh('git fetch https://${GIT_USERNAME}:${GIT_PASSWORD}@${repo} --dry-run')
+                    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${repo} --tags')
                 }
             }
         }
