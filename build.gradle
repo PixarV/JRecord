@@ -7,6 +7,7 @@ subprojects {
     targetCompatibility = JavaVersion.VERSION_1_10
 
     version = '0.85.1'
+    group = 'net.sf.JRecord'
     
     repositories {
         mavenCentral()
@@ -44,5 +45,4 @@ task assemble(type: Copy) {
 
 task clean(type: Delete) {
     delete "${projectDir}/artifacts"
-    delete "${projectDir}/repos"
 }
