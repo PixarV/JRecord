@@ -1,4 +1,4 @@
-ext.versionStr = '0.85.1'
+version = '0.85.1'
 
 dependencies {
     compile project(':cb2xml')
@@ -13,7 +13,7 @@ dependencies {
 jar() {
     manifest {
         attributes 'Implementation-Title': 'JRecord cbl2json module',
-                'Implementation-Version': versionStr
+                'Implementation-Version': version
     }
 }
 
