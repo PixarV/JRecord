@@ -54,9 +54,10 @@ pipeline {
                     sh 'git config user.password "{GIT_PASSWORD}"'
 
                     sh 'git fetch --no-tags --progress https://github.com/PixarV/jrecord.git +refs/heads/artifacts:refs/remotes/origin/artifacts'
+                    sh 'git checkout artifacts'
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins ${BUILD_ID}" -- repos/'
-                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git origin/artifacts --tags'
+                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git --tags'
                 }
             }
         }
