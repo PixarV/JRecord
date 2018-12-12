@@ -61,7 +61,7 @@ pipeline {
                     sh 'git add repos/'
                     sh 'git status'
                     sh 'git commit -m "Jenkins ${BUILD_ID}" -- repos/'
-//                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts --tags'
+                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git'
 
 //                    sh 'git branch -D artifacts'
                 }
