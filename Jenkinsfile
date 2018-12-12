@@ -57,8 +57,6 @@ pipeline {
 
                     sh 'git branch -D artifacts || git checkout -b artifacts origin/artifacts'
                     sh 'git branch -a'
-                    sh 'git checkout -b artifacts origin/artifacts'
-//                            '|| git checkout -b artifacts origin/artifacts'
                     sh 'git add repos/'
                     sh 'git status'
                     sh 'git pull origin artifacts'
