@@ -55,6 +55,7 @@ pipeline {
 
                     sh 'mv repos tmp'
                     sh '(git branch -D artifacts && git checkout -b artifacts origin/artifacts) || git checkout -b artifacts origin/artifacts'
+                    sh 'git pull'
                     sh 'git branch -a'
                     sh 'mv tmp repos'
                     sh 'git add repos/'
