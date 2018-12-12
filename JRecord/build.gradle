@@ -15,7 +15,6 @@ jar() {
         attributes 'Implementation-Title': 'JRecord base module',
                 'Implementation-Version': version
     }
-//    from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 test {
