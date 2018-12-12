@@ -53,9 +53,10 @@ pipeline {
                     sh 'git config user.name "{GIT_USERNAME}"'
                     sh 'git config user.password "{GIT_PASSWORD}"'
 
-                    sh 'git fetch'
+                    sh 'mv repos tmp'
                     sh '(git branch -D artifacts && git checkout -b artifacts origin/artifacts) || git checkout -b artifacts origin/artifacts'
                     sh 'git branch -a'
+                    sh 'mv tmp repos'
                     sh 'git add repos/'
                     sh 'git status'
                     sh 'git commit -m "Jenkins ${BUILD_ID}"'
