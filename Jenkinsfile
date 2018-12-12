@@ -59,6 +59,7 @@ pipeline {
                     sh 'git add repos/'
                     sh 'git status'
                     sh 'git commit -m "Jenkins ${BUILD_ID}"'
+                    sh 'git log'
 //                    sh 'git pull -s ours origin artifacts'
                     sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git'
                 }
