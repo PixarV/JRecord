@@ -53,12 +53,12 @@ pipeline {
                     sh 'git config user.name "{GIT_USERNAME}"'
                     sh 'git config user.password "{GIT_PASSWORD}"'
 
-//                    sh 'git branch -D artifacts'
+                    sh 'git branch -D artifacts'
                     sh 'git branch -a'
                     sh 'git checkout -b artifacts origin/artifacts'
 //                            '|| git checkout -b artifacts origin/artifacts'
 //                    sh 'git pull'
-
+                    sh 'git status'
 //                    sh 'git add repos/'
 //                    sh 'git commit -m "Jenkins ${BUILD_ID}" -- repos/'
 //                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts --tags'
