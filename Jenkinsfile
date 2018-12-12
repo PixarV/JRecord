@@ -53,6 +53,7 @@ pipeline {
                     sh 'git config user.name "{GIT_USERNAME}"'
                     sh 'git config user.password "{GIT_PASSWORD}"'
 
+                    sh 'git branch -a'
                     sh 'git checkout artifacts'
 //                            '|| git checkout -b artifacts origin/artifacts'
 //                    sh 'git pull'
