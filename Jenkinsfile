@@ -57,6 +57,7 @@ pipeline {
                     sh 'git checkout -b artifacts origin/artifacts'
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins ${BUILD_ID}" -- repos/'
+                    sh 'git merge -s ours artifacts'
                     sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git --tags'
                 }
             }
