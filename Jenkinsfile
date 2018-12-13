@@ -45,8 +45,8 @@ pipeline {
         }
         stage("Clean local branch 'artifacts'") {
             steps {
-                sh 'git branch -D artifacts &>/dev/null'
-                sh 'git pull origin'
+                sh 'git branch -D artifacts'
+                sh 'git fetch origin'
                 sh 'git checkout -b artifacts origin/artifacts'
                 sh 'git log'
                 sh 'git pull origin artifacts'
