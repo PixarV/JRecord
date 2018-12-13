@@ -54,6 +54,8 @@ pipeline {
                     sh 'git config user.password "{GIT_PASSWORD}"'
 
                     sh 'git branch -a'
+                    sh 'git checkout artifacts'
+                    sh 'git log'
 
 
 //                    sh 'mv repos tmp'
