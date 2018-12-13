@@ -43,41 +43,43 @@ pipeline {
 //                junit '**/build/test-results/test/TEST-*.xml'
             }
         }
-        stage("clean artifacts") {
-            steps {
-                sh 'git branch -D artifacts'
-                sh 'git checkout -b artifacts origin/artifacts'
-                sh 'git pull origin artifacts'
-                sh 'git log'
-
-            }
-        }
-//        stage('Push artifacts') {
+//        stage("clean artifacts") {
 //            steps {
-//                withCredentials([usernamePassword(credentialsId: 'uliana_github',
-//                        passwordVariable: 'GIT_PASSWORD',
-//                        usernameVariable: 'GIT_USERNAME')]) {
-//
-////                    sh 'git config credential.${origin}.email "${GIT_USERNAME}@gmail.com"'
-////                    sh 'git config credential.${origin}.username "{GIT_USERNAME}"'
-////                    sh 'git config credential.${origin}.password "{GIT_PASSWORD}"'
-//
-//                    sh 'mv repos tmp'
-//                    sh 'git checkout artifacts'
-//                    sh 'git pull origin artifacts'
-//                    sh 'git log'
-//                    sh 'mv repos tmp'
-//                    sh 'git add repos/'
-//                    sh 'git commit -m "Jenkins ${BUILD_ID}"'
-////                    sh 'mv repos tmp'
-////                    sh '(git branch -D artifacts && git checkout -b artifacts origin/artifacts) || git checkout -b artifacts origin/artifacts'
-////                    sh 'git pull'
-////                    sh 'git branch -a'
-////                    sh 'mv tmp repos'
-//                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts'
-//                }
+//                sh 'git branch -D artifacts'
+//                sh 'git checkout -b artifacts origin/artifacts'
+//                sh 'git pull origin artifacts'
+//                sh 'git log'
 //
 //            }
 //        }
+        stage('Push artifacts') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'uliana_github',
+                        passwordVariable: 'GIT_PASSWORD',
+                        usernameVariable: 'GIT_USERNAME')]) {
+
+//                    sh 'git config credential.${origin}.email "${GIT_USERNAME}@gmail.com"'
+//                    sh 'git config credential.${origin}.username "{GIT_USERNAME}"'
+//                    sh 'git config credential.${origin}.password "{GIT_PASSWORD}"'
+
+                    sh 'rm -rf tmp/'
+                    sh 'mv repos/ tmp/'
+                    sh 'git checkout artifacts'
+                    sh 'git pull origin artifacts'
+                    sh 'git log'
+                    sh 'mv tmp/* repos/'
+                    sh 'rm -rf tmp/'
+                    sh 'git add repos/'
+                    sh 'git commit -m "Jenkins ${BUILD_ID}"'
+//                    sh 'mv repos tmp'
+//                    sh '(git branch -D artifacts && git checkout -b artifacts origin/artifacts) || git checkout -b artifacts origin/artifacts'
+//                    sh 'git pull'
+//                    sh 'git branch -a'
+//                    sh 'mv tmp repos'
+                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts'
+                }
+
+            }
+        }
     }
 }
