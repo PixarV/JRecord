@@ -48,7 +48,7 @@ pipeline {
                 sh 'git worktree list'
                 sh 'git branch -D artifacts &>/dev/null'
                 sh 'git checkout -b artifacts origin/artifacts'
-                sh 'git fetch --no-tags --progress https://github.com/PixarV/jrecord.git +refs/heads/artifacts:refs/remotes/origin/artifacts'
+                sh 'git fetch -u'
                 sh 'git checkout artifacts'
 //                sh 'git reset origin/artifacts --hard'
                 sh 'git log'
