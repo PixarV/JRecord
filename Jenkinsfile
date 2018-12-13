@@ -36,21 +36,19 @@ pipeline {
                 sh './gradlew assemble'
             }
         }
-        stage('Publish artifacts and test results') {
-            steps {
-                archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
-                sh './gradlew publish'
-                junit '**/build/test-results/test/TEST-*.xml'
-            }
-        }
+//        stage('Publish artifacts and test results') {
+//            steps {
+//                archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
+//                sh './gradlew publish'
+//                junit '**/build/test-results/test/TEST-*.xml'
+//            }
+//        }
         stage("Clean local branch 'artifacts'") {
             steps {
-                sh 'git worktree list'
                 sh 'git branch -D artifacts &>/dev/null'
-                sh 'rm -rf repos/'
-                //sh 'git checkout -b artifacts origin/artifacts'
-                sh 'git fetch --no-tags --progress https://github.com/PixarV/jrecord.git +refs/heads/artifacts:refs/remotes/origin/artifacts'
-                sh 'git checkout origin/artifacts'
+                sh 'git fetch origin'
+                sh 'git checkout -b artifacts origin/artifacts'
+                //sh 'git fetch --no-tags --progress https://github.com/PixarV/jrecord.git +refs/heads/artifacts:refs/remotes/origin/artifacts'
 //                sh 'git reset origin/artifacts --hard'
                 sh 'git log'
 //                sh 'git pull origin artifacts'
