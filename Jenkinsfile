@@ -53,8 +53,11 @@ pipeline {
                     sh 'git config user.name "{GIT_USERNAME}"'
                     sh 'git config user.password "{GIT_PASSWORD}"'
 
+                    sh 'git fetch origin'
                     sh 'git branch -a'
+
                     sh 'git checkout artifacts'
+                    sh 'git reset --hard origin/artifacts'
                     sh 'git log'
 
 
