@@ -59,6 +59,8 @@ pipeline {
                     sh 'git pull origin artifacts'
                     sh 'git log'
                     sh 'mv repos tmp'
+                    sh 'git add repos/'
+                    sh 'git commit -m "Jenkins ${BUILD_ID}"'
 //                    sh 'mv repos tmp'
 //                    sh '(git branch -D artifacts && git checkout -b artifacts origin/artifacts) || git checkout -b artifacts origin/artifacts'
 //                    sh 'git pull'
