@@ -31,18 +31,18 @@ pipeline {
                 sh './gradlew slowTest'
             }
         }
-//        stage("Assemble") {
-//            steps {
-//                sh './gradlew assemble'
-//            }
-//        }
-//        stage('Result') {
-//            steps {
-//                archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
-//                sh './gradlew publish'
-////                junit '**/build/test-results/test/TEST-*.xml'
-//            }
-//        }
+        stage("Assemble") {
+            steps {
+                sh './gradlew assemble'
+            }
+        }
+        stage('Result') {
+            steps {
+                archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
+                sh './gradlew publish'
+//                junit '**/build/test-results/test/TEST-*.xml'
+            }
+        }
         stage('Push artifacts') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'uliana_github',
