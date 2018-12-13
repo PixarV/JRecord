@@ -49,10 +49,11 @@ pipeline {
                 sh 'git branch -D artifacts &>/dev/null'
                 sh 'git checkout -b artifacts origin/artifacts'
                 sh 'git fetch origin'
-                sh 'git reset origin/artifacts --hard'
+                sh 'git checkout origin/artifacts'
+//                sh 'git reset origin/artifacts --hard'
                 sh 'git log'
-                sh 'git pull origin artifacts'
-                sh 'git log'
+//                sh 'git pull origin artifacts'
+//                sh 'git log'
             }
         }
 //        stage('Push artifacts') {
