@@ -52,24 +52,24 @@ pipeline {
                 sh 'git log'
             }
         }
-        stage('Push artifacts') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'uliana_github',
-                        passwordVariable: 'GIT_PASSWORD',
-                        usernameVariable: 'GIT_USERNAME')]) {
-
-                    sh 'rm -rf tmp/ && mv repos/ tmp/'
-
-                    sh 'git checkout artifacts'
-                    sh 'git pull origin artifacts'
-
-                    sh 'rm -rf repos/ && mv tmp/ repos/ ** rm -rf tmp/'
-
-                    sh 'git add repos/'
-                    sh 'git commit -m "Jenkins ${BUILD_ID}"'
-                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts'
-                }
-            }
-        }
+//        stage('Push artifacts') {
+//            steps {
+//                withCredentials([usernamePassword(credentialsId: 'uliana_github',
+//                        passwordVariable: 'GIT_PASSWORD',
+//                        usernameVariable: 'GIT_USERNAME')]) {
+//
+//                    sh 'rm -rf tmp/ && mv repos/ tmp/'
+//
+//                    sh 'git checkout artifacts'
+//                    sh 'git pull origin artifacts'
+//
+//                    sh 'rm -rf repos/ && mv tmp/ repos/ ** rm -rf tmp/'
+//
+//                    sh 'git add repos/'
+//                    sh 'git commit -m "Jenkins ${BUILD_ID}"'
+//                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts'
+//                }
+//            }
+//        }
     }
 }
