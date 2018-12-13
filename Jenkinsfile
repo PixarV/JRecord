@@ -53,22 +53,18 @@ pipeline {
 //                    sh 'git config credential.${origin}.username "{GIT_USERNAME}"'
 //                    sh 'git config credential.${origin}.password "{GIT_PASSWORD}"'
 
+
                     sh 'mv repos tmp'
                     sh 'git checkout artifacts'
                     sh 'git pull origin artifacts'
                     sh 'git log'
-                    sh 'mv tmp repos'
-
-                    sh 'git add repos/'
-                    sh 'git commit -m "Jenkins ${BUILD_ID}"'
-
-
+                    sh 'mv repos tmp'
 //                    sh 'mv repos tmp'
 //                    sh '(git branch -D artifacts && git checkout -b artifacts origin/artifacts) || git checkout -b artifacts origin/artifacts'
 //                    sh 'git pull'
 //                    sh 'git branch -a'
 //                    sh 'mv tmp repos'
-                    sh 'git push origin artifacts'
+                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts'
                 }
 
             }
