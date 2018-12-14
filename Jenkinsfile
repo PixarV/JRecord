@@ -73,6 +73,9 @@ pipeline {
                         passwordVariable: 'GIT_PASSWORD',
                         usernameVariable: 'GIT_USERNAME')]) {
 
+                    sh 'git config user.email "${GIT_USERNAME}@gmail.com"'
+                    sh 'git config user.name "${GIT_USERNAME}"'
+
                     sh 'git config credential.${origin}.username ${GIT_USERNAME}'
                     sh 'git config credential.${origin}.password ${GIT_PASSWORD}'
 
