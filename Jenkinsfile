@@ -43,6 +43,12 @@ pipeline {
 //                junit '**/build/test-results/test/TEST-*.xml'
 //            }
 //        }
+
+        stage("Fetch origin") {
+            sh 'git fetch --all'
+            sh 'git branch -a'
+        }
+
         stage("Clean local branch 'artifacts'") {
             steps {
                 sh 'git branch -D artifacts &>/dev/null'
