@@ -45,8 +45,10 @@ pipeline {
 //        }
 
         stage("Fetch origin") {
-            sh 'git fetch --all'
-            sh 'git branch -a'
+            steps {
+                sh 'git fetch --all'
+                sh 'git branch -a'
+            }
         }
 
         stage("Clean local branch 'artifacts'") {
