@@ -12,9 +12,9 @@ pipeline {
     stages {
         stage("Fetch origin") {
             steps {
-                sh 'git remote rename origin origin_old'
-                sh 'git remote add origin_new https://github.com/PixarV/jrecord.git'
-                sh 'git fetch origin_new'
+                sh 'git remote rename origin_old origin'
+//                sh 'git remote add origin_new https://github.com/PixarV/jrecord.git'
+                sh 'git fetch origin'
                 sh 'git remote -v'
                 sh 'git branch -a'
             }
