@@ -6,10 +6,17 @@ pipeline {
     environment {
         JAVA_HOME = "${jdk}"
     }
+    stage("Fetch origin") {
+        steps {
+            sh 'git remote -v'
+            sh 'git branch -a'
+            sh 'git branch -a'
+        }
+    }
     stages {
         stage("Pre-build") {
             steps {
-                checkout scm
+//                checkout scm
                 sh './gradlew clean'
             }
         }
@@ -44,12 +51,6 @@ pipeline {
 //            }
 //        }
 
-        stage("Fetch origin") {
-            steps {
-                sh 'git fetch --all'
-                sh 'git branch -a'
-            }
-        }
 
         stage("Clean local branch 'artifacts'") {
             steps {
