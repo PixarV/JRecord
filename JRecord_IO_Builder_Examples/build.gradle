@@ -1,4 +1,4 @@
-ext.versionStr = '0.85.1'
+version = '0.85.1'
 
 dependencies {
     compile project(':JRecord')
@@ -7,6 +7,6 @@ dependencies {
 jar() {
     manifest {
         attributes 'Implementation-Title': 'JRecord io builder examples module',
-                'Implementation-Version': versionStr
+                'Implementation-Version': version
     }
 }

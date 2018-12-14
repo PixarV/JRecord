@@ -1,12 +1,38 @@
+
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
 
     sourceCompatibility = JavaVersion.VERSION_1_10
     targetCompatibility = JavaVersion.VERSION_1_10
 
+    //TODO: if hasProperty release -> version = else version= SNAPSHOT 
+    version = '0.85.1'
+    group = 'net.sf.JRecord'
+    
     repositories {
         mavenCentral()
     }
+
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allJava
+        classifier = 'sources'
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact sourcesJar
+            }
+        }
+        repositories {
+            maven {
+                url = "$rootProject.projectDir/repos"
+            }
+        }
+    }
+
 }
 
 task assemble(type: Copy) {
