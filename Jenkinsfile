@@ -6,6 +6,9 @@ pipeline {
     environment {
         JAVA_HOME = "${jdk}"
     }
+    options {
+        skipDefaultCheckout(true)
+    }
     stages {
         stage("Fetch origin") {
             steps {
