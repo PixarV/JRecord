@@ -47,6 +47,8 @@ pipeline {
             steps {
                 sh 'git branch -D artifacts &>/dev/null'
                 sh 'git fetch origin'
+                sh 'git remote -v'
+                sh 'git branch -a'
                 sh 'git checkout -b artifacts origin/artifacts'
             }
         }
