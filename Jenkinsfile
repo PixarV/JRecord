@@ -73,6 +73,9 @@ pipeline {
                         passwordVariable: 'GIT_PASSWORD',
                         usernameVariable: 'GIT_USERNAME')]) {
 
+                    sh 'git config credential.${origin}.username ${GIT_USERNAME}'
+                    sh 'git config credential.${origin}.password ${GIT_PASSWORD}'
+
                     sh 'rm -rf tmp/ && mv repos/ tmp/'
 
                     sh 'git branch -a'
