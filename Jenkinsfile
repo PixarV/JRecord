@@ -6,14 +6,14 @@ pipeline {
     environment {
         JAVA_HOME = "${jdk}"
     }
-    stage("Fetch origin") {
-        steps {
-            sh 'git remote -v'
-            sh 'git branch -a'
-            sh 'git branch -a'
-        }
-    }
     stages {
+        stage("Fetch origin") {
+            steps {
+                sh 'git remote -v'
+                sh 'git branch -a'
+                sh 'git branch -a'
+            }
+        }
         stage("Pre-build") {
             steps {
 //                checkout scm
