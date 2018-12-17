@@ -72,7 +72,7 @@ pipeline {
                     sh 'rm -rf repos/ && mv tmp/ repos/ && rm -rf tmp/'
 
                     sh 'git add repos/'
-                    sh 'git commit -m "Jenkins ${BUILD_ID}"'
+                    sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
                     sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts'
                 }
             }
