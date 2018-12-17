@@ -11,17 +11,12 @@ pipeline {
             steps {
                 sh 'git remote rename origin origin_old'
                 sh 'git remote add origin https://github.com/PixarV/jrecord.git'
-//                sh 'git fetch origin_old'
-//                sh 'git branch -a'
                 sh 'git fetch origin'
                 sh 'git branch -a'
-//                sh 'git remote -v'
-//                sh 'git branch -a'
             }
         }
         stage("Pre-build") {
             steps {
-//                checkout scm
                 sh './gradlew clean'
             }
         }
@@ -55,15 +50,6 @@ pipeline {
                 junit '**/build/test-results/test/TEST-*.xml'
             }
         }
-//        stage("Clean local branch 'artifacts'") {
-//            steps {
-//                sh 'git branch -D artifacts &>/dev/null'
-//                sh 'git fetch origin artifacts'
-//                sh 'git remote -v'
-//                sh 'git branch -a'
-//                sh 'git checkout -b artifacts origin/artifacts'
-//            }
-//        }
         stage('Push artifacts') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'brainydamage',
@@ -80,7 +66,6 @@ pipeline {
 
                     sh 'git branch -a'
 
-//                    sh 'git checkout -b artifacts origin/artifacts'
                     sh 'git checkout artifacts || git checkout -b artifacts origin/artifacts'
                     sh 'git pull origin artifacts'
 
