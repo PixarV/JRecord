@@ -1,4 +1,6 @@
-version = '0.85.1'
+//Last release version
+//version = '0.85.1'
+version = 'SNAPSHOT'
 
 dependencies {
     compile project(':cb2xml')

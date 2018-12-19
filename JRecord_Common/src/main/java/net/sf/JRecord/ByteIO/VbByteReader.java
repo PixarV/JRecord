@@ -59,7 +59,6 @@ import java.io.InputStream;
 public class VbByteReader extends AbstractByteReader {
 
 	private static final int LAST_7_BITS_SET = 127;
-
     private InputStream inStream;
 	private BufferedInputStream stream = null;
 
