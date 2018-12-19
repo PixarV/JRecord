@@ -32,6 +32,8 @@
       
 package net.sf.JRecord.ByteIO;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,6 +54,8 @@ import java.io.InputStream;
  * @version 0.55
  *
  */
+
+@Slf4j
 public class VbByteReader extends AbstractByteReader {
 
 	private static final int LAST_7_BITS_SET = 127;
@@ -144,14 +148,9 @@ public class VbByteReader extends AbstractByteReader {
 
         lineNumber += 1;
         if (readBuffer(stream, rdw) > 0) {
-//            rdwLength[0] = rdw[0];
-//            rdwLength[1] = rdw[1];
-//
-//        	int lineLength = (new BigInteger(rdwLength)).intValue() - rdwAdjust;
         	int lineLength = ((rdw[0] & 0xFF) << 8) + (rdw[1] & 0xFF) - rdwAdjust;
             if (rdw[2] != 0  || rdw[3] != 0) {
-//              if ((rdw[2] != 0 &&  rdw[2] != 1 && rdw[2] != 2) || rdw[3] != 0) {
-                throw new IOException(
+                log.warn(
                           "Invalid Record Descriptor word at line "
                         + lineNumber + " " + lineLength + "\t" + rdw[2] + " " + rdw[3]
                       );
