@@ -151,8 +151,8 @@ public class VbByteReader extends AbstractByteReader {
         	int lineLength = ((rdw[0] & 0xFF) << 8) + (rdw[1] & 0xFF) - rdwAdjust;
             if (rdw[2] != 0  || rdw[3] != 0) {
                 log.warn(
-                          "Invalid Record Descriptor word at line "
-                        + lineNumber + " " + lineLength + "\t" + rdw[2] + " " + rdw[3]
+                          "Invalid Record Descriptor Word at line: "
+                        + lineNumber + " " + lineLength + "\t" + "Non-zero values at RDW bytes [2]: " + rdw[2] + "[3]: " + rdw[3]
                       );
             }
 
