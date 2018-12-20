@@ -20,24 +20,24 @@ pipeline {
                 sh './gradlew clean'
             }
         }
-        stage("Compile project") {
-            steps {
-                sh './gradlew compileJava'
-            }
-        }
-        stage("Test fast") {
-            steps {
-                sh './gradlew test'
-            }
-        }
-        stage("Test slow") {
-            when {
-                branch 'master'
-            }
-            steps {
-                sh './gradlew slowTest'
-            }
-        }
+//        stage("Compile project") {
+//            steps {
+//                sh './gradlew compileJava'
+//            }
+//        }
+//        stage("Test fast") {
+//            steps {
+//                sh './gradlew test'
+//            }
+//        }
+//        stage("Test slow") {
+//            when {
+//                branch 'master'
+//            }
+//            steps {
+//                sh './gradlew slowTest'
+//            }
+//        }
         stage("Assemble") {
             steps {
                 sh './gradlew assemble'
@@ -69,7 +69,7 @@ pipeline {
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts'
 
-                    sh './put_artifacts.sh'
+                    sh 'ls -la ./put_artifacts.sh'
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
