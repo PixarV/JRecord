@@ -69,6 +69,7 @@ pipeline {
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts'
 
+                    sh 'chmod 777 put_artifacts.sh'
                     sh 'ls -la ./put_artifacts.sh'
 
                     sh 'git add repos/'
