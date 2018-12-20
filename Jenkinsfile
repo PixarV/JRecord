@@ -20,24 +20,24 @@ pipeline {
                 sh './gradlew clean'
             }
         }
-//        stage("Compile project") {
-//            steps {
-//                sh './gradlew compileJava'
-//            }
-//        }
-//        stage("Test fast") {
-//            steps {
-//                sh './gradlew test'
-//            }
-//        }
-//        stage("Test slow") {
-//            when {
-//                branch 'master'
-//            }
-//            steps {
-//                sh './gradlew slowTest'
-//            }
-//        }
+        stage("Compile project") {
+            steps {
+                sh './gradlew compileJava'
+            }
+        }
+        stage("Test fast") {
+            steps {
+                sh './gradlew test'
+            }
+        }
+        stage("Test slow") {
+            when {
+                branch 'master'
+            }
+            steps {
+                sh './gradlew slowTest'
+            }
+        }
         stage("Assemble") {
             steps {
                 sh './gradlew assemble'
@@ -47,7 +47,7 @@ pipeline {
             steps {
                 archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
                 sh './gradlew publish'
-//                junit '**/build/test-results/test/TEST-*.xml'
+                junit '**/build/test-results/test/TEST-*.xml'
             }
         }
         stage('Push artifacts') {
