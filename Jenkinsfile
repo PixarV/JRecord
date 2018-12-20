@@ -70,7 +70,7 @@ pipeline {
                     sh 'git pull origin artifacts'
 
                     sh 'chmod 777 put_artifacts.sh'
-                    sh 'ls -la ./put_artifacts.sh'
+                    sh './put_artifacts.sh'
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
