@@ -1,6 +1,7 @@
-# HERE will be main readme information
+# JRecord library fork 
+from BRUCE A. MARTIN repository [repository](https://github.com/svn2github/jrecords)
 
-## RELEASE: SNAPSHOT
+## VERSION: SNAPSHOT '0.85.1.1'
 
 ### 2018.12.19 Issue: "Task-368 RDW Non zero bytes"
 
@@ -10,4 +11,4 @@
     (and possible BDW) usually contain binary zeroes (or x'00').
     The problem starts, when second two bytes contain not binary zeroes. In this case we have IOException in VbByteReader.read(). 
     
-## RELEASE: '0.85.1'
+## VERSION: RELEASE '0.85.1' - stable build by BRUCE A. MARTIN 
