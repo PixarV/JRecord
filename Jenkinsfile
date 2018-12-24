@@ -76,13 +76,17 @@ pipeline {
 
 //                    putArtifacts()
                     script {
-                        def testFile = Paths.get("testFile")
-                        println testFile.toAbsolutePath().toString()
-                        Files.delete(testFile)
+//                        def testFile = Paths.get("testFile")
+//                        println testFile.toAbsolutePath().toString()
+//                        Files.delete(testFile)
                         Path sourceDir = Paths.get("tmp/net/sf/JRecord")
 
                         for (File file : sourceDir.toFile().listFiles()) {
+                            println file.toString()
+
                             for (File artifact : file.listFiles()) {
+                                println artifact.toString()
+
                                 Path targetArtifact = Paths.get(
                                         artifact.toString()
                                                 .replace("tmp", "repos")
