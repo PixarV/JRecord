@@ -99,8 +99,8 @@ pipeline {
                                 }
                                 println "before copy method"
                                 Path targetDir = targetArtifact.parent
-                                println targetDir.toAbsolutePath().toString()
-//                                Files.copy(artifact.toPath(), file.toPath())
+//                                println targetDir.toAbsolutePath().toString()
+                                Files.copy(artifact.toPath(), targetDir)
                                 println "after copy method"
                             }
                         }
