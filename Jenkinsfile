@@ -70,8 +70,8 @@ pipeline {
 
                     sh 'git branch -a'
 
-                    sh 'git checkout artifacts || git checkout -b artifacts origin/artifacts'
-                    sh 'git pull origin artifacts'
+                    sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
+                    sh 'git pull origin artifacts_test'
 
 //                    sh 'chmod u+x put_artifacts.sh'
 //                    sh './put_artifacts.sh'
@@ -80,7 +80,7 @@ pipeline {
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
-                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts'
+                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts_test'
                 }
             }
         }
