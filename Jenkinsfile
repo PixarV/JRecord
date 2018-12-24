@@ -1,9 +1,6 @@
-import java.nio.file.FileVisitResult
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.nio.file.SimpleFileVisitor
-import java.nio.file.attribute.BasicFileAttributes
 
 pipeline {
     agent any
@@ -105,19 +102,13 @@ pipeline {
                                     }
                                 }
                                 println "before copy method"
-//                                if(!artifact.isDirectory())
-                                    Files.walkFileTree(artifact.toPath(),
-                                            new SimpleFileVisitor<Path>() {
-                                                @Override
-                                                FileVisitResult visitFile(final Path f, final BasicFileAttributes attrs)
-                                                        throws IOException {
-                                                    Files.copy(f, Paths.get(f.toString()
-                                                                             .replace("tmp", "repos")))
-                                                    return FileVisitResult.CONTINUE
-                                                }
-                                            }
-                                    )
-
+                                if(artifact.isDirectory()) {
+                                    new AntBuilder().copy(todir: targetArtifact) {
+                                        fileset(dir: artifact.toString())
+                                    }
+                                } else {
+                                    Files.copy(artifact.toPath(), targetArtifact)
+                                }
                                 println "after copy method"
                             }
                         }
