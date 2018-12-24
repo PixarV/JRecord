@@ -89,17 +89,18 @@ pipeline {
 
 static void putArtifacts() {
     Path sourceDir = Paths.get("tmp/net/sf/JRecord")
-    sourceDir.eachDir {
+    def closure = {
         it.eachFile {
             Path targetArtifact = Paths.get(
-                                it.toString()
-                                  .replace("tmp", "repos")
-                            )
+                    it.toString()
+                            .replace("tmp", "repos")
+            )
 
-            if(targetArtifact.toFile().isDirectory()) {
+            if (targetArtifact.toFile().isDirectory()) {
                 targetArtifact.deleteDir()
             }
             Files.copy(it, targetArtifact)
         }
     }
+    sourceDir.eachDir(closure)
 }
