@@ -73,15 +73,17 @@ pipeline {
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts_test'
 
-                    sh 'rm -rf JRecord/ && rm -rf JRecord_Cbl2Json/ && rm -rf JRecord_Cbl2Xml && rm -rf JRecord_CodeGen && rm -rf JRecord_Common && rm -rf JRecord_IO_Builder_Examples && rm -rf JRecord_SchemaCompare && rm -rf cb2xml'
-
-                    sh 'ls -la'
-
                     script {
                         Path sourceDir = Paths.get("tmp/net/sf/JRecord")
 
                         for(File file : sourceDir.toFile().listFiles()){
+
+                            println file.toString()
+
                             for(File artifact : file.listFiles()) {
+
+                                println artifact.toString()
+
                                 Path targetArtifact = Paths.get(
                                         artifact.toString()
                                                 .replace("tmp", "repos")
@@ -99,8 +101,6 @@ pipeline {
                             }
                         }
                     }
-
-                    sh 'ls -la'
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
