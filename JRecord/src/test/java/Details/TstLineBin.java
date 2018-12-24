@@ -36,6 +36,7 @@ package Details;
 
 
 import junit.framework.TestCase;
+import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
@@ -43,16 +44,30 @@ import net.sf.JRecord.Details.Line;
 import net.sf.JRecord.External.CobolCopybookLoader;
 import net.sf.JRecord.External.CopybookLoader;
 import net.sf.JRecord.Numeric.ICopybookDialects;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
+import ch.qos.logback.classic.Level;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Bruce Martin
  */
-public class TstLineBin extends TestCase {
+public class TstLineBin {
 
+    final Logger log = (Logger) LoggerFactory.getLogger(Conversion.class);
     private CopybookLoader copybookInt = new CobolCopybookLoader();
 
     private static String copyBookName = "Cbl_Line_Test_Record.cbl";
@@ -87,8 +102,8 @@ public class TstLineBin extends TestCase {
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
 
         LayoutDetail copyBook =
                 copybookInt.loadCopyBook(
@@ -103,8 +118,8 @@ public class TstLineBin extends TestCase {
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
 
         line = null;
     }
@@ -114,10 +129,10 @@ public class TstLineBin extends TestCase {
      * Check the Line.getField function (Text Field)
      */
     @SuppressWarnings("deprecation")
+    @Test
     public void testGetField() throws Exception {
 
-        assertEquals(" 1 GetField - Character Field " + line.getField(0, 0 + xmlTotal),
-                "asdf", line.getField(0, 0));
+        assertEquals(" 1 GetField - Character Field " + line.getField(0, 0 + xmlTotal), "asdf", line.getField(0, 0));
         assertEquals(" 2 GetField - Character Field ", "    qwerty", line.getField(0, 1 + xmlTotal));
         assertEquals(" 3 GetField - Decimal Field ", "123", line.getField(0, 2 + xmlTotal));
         assertEquals(" 7 GetField - Num Right Just", "123", line.getField(0, 6 + xmlTotal));
@@ -162,6 +177,7 @@ public class TstLineBin extends TestCase {
     /**
      * check Line.getFieldText
      */
+    @Test
     public void testGetFieldText() {
         //"436857cf"
         byte[] b = {0x43, 0x68, 0x57, (byte) 0xcf};
@@ -179,6 +195,7 @@ public class TstLineBin extends TestCase {
     /**
      * Check GetFieldHex (retrieve a valuer as Hex)
      */
+    @Test
     public void testGetFieldHex() {
 
         assertEquals("GetFieldHex - GetHex", "15030000", line.getFieldHex(0, 8));
@@ -202,10 +219,10 @@ public class TstLineBin extends TestCase {
 
     }
 
+    @Test
     public void testGetFieldValueString() throws Exception {
 
-        assertEquals(" 1 GetFieldValue - Character Field " + line.getFieldValue(0, 0).asString(),
-                "asdf", line.getFieldValue(0, 0).asString());
+        assertEquals(" 1 GetFieldValue - Character Field " + line.getFieldValue(0, 0).asString(), "asdf", line.getFieldValue(0, 0).asString());
         assertEquals(" 2 GetFieldValue - Character Field ", "    qwerty", line.getFieldValue(0, 1).asString());
         assertEquals(" 3 GetFieldValue - Decimal Field ", "123", line.getFieldValue(0, 2).asString());
         assertEquals(" 7 GetFieldValue - Num Right Just", "123", line.getFieldValue(0, 6).asString());
@@ -247,6 +264,7 @@ public class TstLineBin extends TestCase {
     }
 
 
+    @Test
     public void testGetFieldValue() throws Exception {
 
 //        assertEquals(" 1 GetFieldValue - Character Field " + line.getFieldValue(0, 0).asString(),
@@ -290,8 +308,7 @@ public class TstLineBin extends TestCase {
         checkDecimal(line1, "16 GetFieldValue - Mainframe Binary with Decimal", "4000000.00", 15);
         checkAllNums(line1, "21 GetFieldValue - Mainframe Small Int ", "31000", 20);
         checkDecimal(line1, "22 GetFieldValue - Mainframe Long ", "100000000000000000", 21);
-        assertEquals("22 GetFieldValue - Mainframe Long  e) ",
-                new BigInteger("100000000000000000"), line1.getFieldValue(0, 21).asBigInteger());
+        assertEquals("22 GetFieldValue - Mainframe Long  e) ", new BigInteger("100000000000000000"), line1.getFieldValue(0, 21).asBigInteger());
     }
 
     private void checkAllNums(String id, String val, int fld) {
@@ -327,6 +344,7 @@ public class TstLineBin extends TestCase {
      *
      * @throws RecordException conversion error (should not occur)
      */
+    @Test
     public void testSetField() throws RecordException {
 
         checkAssignment(" 3 setField - Decimal Field ", 2, "456");
@@ -414,6 +432,7 @@ public class TstLineBin extends TestCase {
         checkAssignmentText("26n2 setField - Mainframe Zoned with decimal", 25, "-0.45", "004N");
     }
 
+    @Test
     public void testSetFieldMainframe() throws Exception {
         LayoutDetail copyBook1 =
                 copybookInt.loadCopyBook(
@@ -537,6 +556,7 @@ public class TstLineBin extends TestCase {
     /**
      * Test Line.setFieldConversion
      */
+    @Test
     public void testSetFieldConversion() {
 
         checkConversionError(" 2 setField - Decimal Field ", 2);
@@ -585,6 +605,7 @@ public class TstLineBin extends TestCase {
     /**
      * Test Line.setFieldConversion
      */
+    @Test
     public void testSetFieldSizeError() {
 
         checkSizeError(" 2 setField - Decimal Field ", 2, "12345678901");
@@ -633,11 +654,20 @@ public class TstLineBin extends TestCase {
     @SuppressWarnings("deprecation")
     private void checkSizeError(String msg, int fldNum, String value) {
 
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        log.addAppender(listAppender);
+
+
         try {
             line.setField(0, fldNum, value);
-
             System.out.println("::> " + msg + " " + value + " :: " + line.getField(0, fldNum));
-            throw new AssertionError("Size Error: " + msg);
+            List<ILoggingEvent> logsList = listAppender.list;
+            assertEquals(Level.WARN, logsList.get(0).getLevel());
+            assertEquals("Value length is to big for field length. Probably the data file is corrupted", logsList.get(0).getMessage());
+
+
+//            throw new AssertionError("Size Error: " + msg);
         } catch (RecordException e) {
         }
     }
@@ -685,25 +715,26 @@ public class TstLineBin extends TestCase {
     /**
      * test get record
      */
+    @Test
     public void testGetRecord() {
         try {
             checkAssignment(" 3 setField - Decimal Field ", 2, "456");
         } catch (Exception e) {
         }
-        assertTrue("getRecord Error ", Arrays.equals(rec, line.getData()));
+        Assert.assertTrue("getRecord Error ", Arrays.equals(rec, line.getData()));
     }
 
     /**
      * Check retrieving Mainframe Field etc
      */
+    @Test
     public void testMainframe() throws Exception {
         AbstractLine mainframeLine = defMainframeRec();
         String expected = "69694158";
         String s = mainframeLine.getField(0, 0).toString();
         byte[] r;
 
-        assertEquals("Testing Mainframe getField " + expected + " <> " + s,
-                expected, s);
+        assertEquals("Testing Mainframe getField " + expected + " <> " + s, expected, s);
 
         try {
             mainframeLine.setField(0, 0, "1");
@@ -715,7 +746,7 @@ public class TstLineBin extends TestCase {
         r = mainframeLine.getData();
         System.out.println("Mainframe rec Lengths=> " + recDtar020.length
                 + " " + r.length);
-        assertTrue("getRecord Error ", Arrays.equals(recDtar020, r));
+        Assert.assertTrue("getRecord Error ", Arrays.equals(recDtar020, r));
     }
 
 

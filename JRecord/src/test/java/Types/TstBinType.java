@@ -35,18 +35,30 @@
 package Types;
 
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import junit.framework.TestCase;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * @author Bruce Martin
  */
-public class TstBinType extends TestCase {
+public class TstBinType {
 
+    private final Logger log = (Logger) LoggerFactory.getLogger(Conversion.class);
 
     private byte[] rec1 =
             {97, 115, 100, 102, 32, 32, 32, 32, 32, 32, 32
@@ -133,8 +145,8 @@ public class TstBinType extends TestCase {
     /**
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
 
         fldChar = getType(1, 10, 0, 0);
         fldCharRightJust = getType(11, 10, 1, 0);
@@ -175,8 +187,8 @@ public class TstBinType extends TestCase {
     /**
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
 
         //line = null;
     }
@@ -205,93 +217,82 @@ public class TstBinType extends TestCase {
     /**
      * Check the Line.getField function (Text Field)
      */
+    @Test
     public void testGetValue() {
 
-        assertEquals(" 1 GetValue - Character Field ", "asdf", getFldValue(fldChar));
-        assertEquals(" 2 GetValue - Character Field ", "    qwerty", getFldValue(fldCharRightJust));
-        assertEquals(" 3 GetValue - Decimal Field ", "123", getFldValue(fldDecimal));
-        assertEquals(" 4 GetValue - Double Field ", "121.232", getFldValue(fldDouble));
-        assertEquals(" 5 GetValue - Float  Field ", "232.343", getFldValue(fldFloat));
-        assertEquals(" 6 GetValue - Num  Field ", "3456", getFldValue(fldNum));
-        assertEquals(" 7 GetValue - Num Right Just", "123", getFldValue(fldNumRightJust));
-        assertEquals(" 8 GetValue - Num Zero Padded Field ", "456", getFldValue(fldNumZeroPadded));
-        assertEquals(" 9 GetValue - Postive Int ", "789", getFldValue(fldPostiveInt));
-        assertEquals("10 GetValue - Assumed Decimal ", "123.4500", getFldValue(fldAssummedDecimal));
-        assertEquals("11 GetValue - Num 2 Decimal ", "23.67", getFldValue(fldNum2decimal));
-        assertEquals("12 GetValue - Decimal ", "45.67", getFldValue(fldDecimal2digits));
-        assertEquals("13 GetValue - Positive Int ", "123.45", getFldValue(fldPositiveInt2digit));
+        Assert.assertEquals(" 1 GetValue - Character Field ", "asdf", getFldValue(fldChar));
+        Assert.assertEquals(" 2 GetValue - Character Field ", "    qwerty", getFldValue(fldCharRightJust));
+        Assert.assertEquals(" 3 GetValue - Decimal Field ", "123", getFldValue(fldDecimal));
+        Assert.assertEquals(" 4 GetValue - Double Field ", "121.232", getFldValue(fldDouble));
+        Assert.assertEquals(" 5 GetValue - Float  Field ", "232.343", getFldValue(fldFloat));
+        Assert.assertEquals(" 6 GetValue - Num  Field ", "3456", getFldValue(fldNum));
+        Assert.assertEquals(" 7 GetValue - Num Right Just", "123", getFldValue(fldNumRightJust));
+        Assert.assertEquals(" 8 GetValue - Num Zero Padded Field ", "456", getFldValue(fldNumZeroPadded));
+        Assert.assertEquals(" 9 GetValue - Postive Int ", "789", getFldValue(fldPostiveInt));
+        Assert.assertEquals("10 GetValue - Assumed Decimal ", "123.4500", getFldValue(fldAssummedDecimal));
+        Assert.assertEquals("11 GetValue - Num 2 Decimal ", "23.67", getFldValue(fldNum2decimal));
+        Assert.assertEquals("12 GetValue - Decimal ", "45.67", getFldValue(fldDecimal2digits));
+        Assert.assertEquals("13 GetValue - Positive Int ", "123.45", getFldValue(fldPositiveInt2digit));
 
-        assertEquals("14 GetValue - Num 2 Decimal Digits ", "234.56", getFldValue(fldNum2decimal1));
-        assertEquals("15 GetValue - Mainframe Binary ", "321", getFldValue(fldMainframeInt));
-        assertEquals("16 GetValue - Mainframe Binary with Decimal",
-                "4000000.00", getFldValue(fldMainframeInt2decimal));
-        assertEquals("17 GetValue - Byte ", "127", getFldValue(fldByte));
-        assertEquals("18 GetValue - Small Int ", "31000", getFldValue(fldSmallInt));
-        assertEquals("19 GetValue - Int ", "1000000000", getFldValue(fldInt));
-        assertEquals("20 GetValue - Long ", "100000000000000000", getFldValue(fldLong));
-        assertEquals("21 GetValue - Mainframe Small Int ", "31000",
-                getFldValue(fldMainframeSmallInt));
-        assertEquals("22 GetValue - Mainframe Long ",
-                "100000000000000000", getFldValue(fldMainframeLong));
-        assertEquals("23 GetValue - Mainframe Packed ", "1234",
-                getFldValue(fldMainframePackedDecimal));
-        assertEquals("24 GetValue - Mainframe Packed with decimal",
-                "123.0", getFldValue(fldMainframePackedwithDecimal));
+        Assert.assertEquals("14 GetValue - Num 2 Decimal Digits ", "234.56", getFldValue(fldNum2decimal1));
+        Assert.assertEquals("15 GetValue - Mainframe Binary ", "321", getFldValue(fldMainframeInt));
+        Assert.assertEquals("16 GetValue - Mainframe Binary with Decimal", "4000000.00", getFldValue(fldMainframeInt2decimal));
+        Assert.assertEquals("17 GetValue - Byte ", "127", getFldValue(fldByte));
+        Assert.assertEquals("18 GetValue - Small Int ", "31000", getFldValue(fldSmallInt));
+        Assert.assertEquals("19 GetValue - Int ", "1000000000", getFldValue(fldInt));
+        Assert.assertEquals("20 GetValue - Long ", "100000000000000000", getFldValue(fldLong));
+        Assert.assertEquals("21 GetValue - Mainframe Small Int ", "31000", getFldValue(fldMainframeSmallInt));
+        Assert.assertEquals("22 GetValue - Mainframe Long ", "100000000000000000", getFldValue(fldMainframeLong));
+        Assert.assertEquals("23 GetValue - Mainframe Packed ", "1234", getFldValue(fldMainframePackedDecimal));
+        Assert.assertEquals("24 GetValue - Mainframe Packed with decimal", "123.0", getFldValue(fldMainframePackedwithDecimal));
 
-        assertEquals("25 GetValue - Mainframe Zoned ", "-12", getFldValue(fldZoned));
-        assertEquals("26 GetValue - Mainframe Zoned with decimal",
-                "-0.12", getFldValue(fldZonedWithDecimal));
+        Assert.assertEquals("25 GetValue - Mainframe Zoned ", "-12", getFldValue(fldZoned));
+        Assert.assertEquals("26 GetValue - Mainframe Zoned with decimal", "-0.12", getFldValue(fldZonedWithDecimal));
 
-        assertEquals("27 GetValue - Bit 1byte ", "10000000", getFldValue(fldBit1));
-        assertEquals("28 GetValue - Bit 2byte ", "1000000110000011", getFldValue(fldBit2));
+        Assert.assertEquals("27 GetValue - Bit 1byte ", "10000000", getFldValue(fldBit1));
+        Assert.assertEquals("28 GetValue - Bit 2byte ", "1000000110000011", getFldValue(fldBit2));
     }
 
 
     /**
      * Check the Line.getField function (Text Field)
      */
+    @Test
     public void testGetValue1() {
 
         rec = rec2;
 
-        assertEquals(" 1 GetValue - Character Field ", "asdf", getFldValue(fldChar));
-        assertEquals(" 2 GetValue - Character Field ", "    qwerty", getFldValue(fldCharRightJust));
-        assertEquals(" 3 GetValue - Decimal Field ", "233", getFldValue(fldDecimal));
-        assertEquals(" 4 GetValue - Double Field ", "-121.232", getFldValue(fldDouble));
-        assertEquals(" 5 GetValue - Float  Field ", "-232.343", getFldValue(fldFloat));
-        assertEquals(" 6 GetValue - Num  Field ", "-3456", getFldValue(fldNum));
-        assertEquals(" 7 GetValue - Num Right Just", "-123", getFldValue(fldNumRightJust));
-        assertEquals(" 8 GetValue - Num Zero Padded Field ", "-456", getFldValue(fldNumZeroPadded));
-        assertEquals(" 9 GetValue - Postive Int ", "127890", getFldValue(fldPostiveInt));
-        assertEquals("10 GetValue - Assumed Decimal ", "-123.4500",
-                getFldValue(fldAssummedDecimal));
-        assertEquals("11 GetValue - Num 2 Decimal ", "-23.67", getFldValue(fldNum2decimal));
-        assertEquals("12 GetValue - Decimal ", "1234567.00", getFldValue(fldDecimal2digits));
-        assertEquals("13 GetValue - Positive Int ", "23123.45", getFldValue(fldPositiveInt2digit));
+        Assert.assertEquals(" 1 GetValue - Character Field ", "asdf", getFldValue(fldChar));
+        Assert.assertEquals(" 2 GetValue - Character Field ", "    qwerty", getFldValue(fldCharRightJust));
+        Assert.assertEquals(" 3 GetValue - Decimal Field ", "233", getFldValue(fldDecimal));
+        Assert.assertEquals(" 4 GetValue - Double Field ", "-121.232", getFldValue(fldDouble));
+        Assert.assertEquals(" 5 GetValue - Float  Field ", "-232.343", getFldValue(fldFloat));
+        Assert.assertEquals(" 6 GetValue - Num  Field ", "-3456", getFldValue(fldNum));
+        Assert.assertEquals(" 7 GetValue - Num Right Just", "-123", getFldValue(fldNumRightJust));
+        Assert.assertEquals(" 8 GetValue - Num Zero Padded Field ", "-456", getFldValue(fldNumZeroPadded));
+        Assert.assertEquals(" 9 GetValue - Postive Int ", "127890", getFldValue(fldPostiveInt));
+        Assert.assertEquals("10 GetValue - Assumed Decimal ", "-123.4500", getFldValue(fldAssummedDecimal));
+        Assert.assertEquals("11 GetValue - Num 2 Decimal ", "-23.67", getFldValue(fldNum2decimal));
+        Assert.assertEquals("12 GetValue - Decimal ", "1234567.00", getFldValue(fldDecimal2digits));
+        Assert.assertEquals("13 GetValue - Positive Int ", "23123.45", getFldValue(fldPositiveInt2digit));
 
-        assertEquals("14 GetValue - Num 2 Decimal Digits ", "-34.56", getFldValue(fldNum2decimal1));
-        assertEquals("15 GetValue - Mainframe Binary ", "-54321", getFldValue(fldMainframeInt));
-        assertEquals("16 GetValue - Mainframe Binary with Decimal",
-                "-4000000.00", getFldValue(fldMainframeInt2decimal));
-        assertEquals("17 GetValue - Byte ", "-128", getFldValue(fldByte));
-        assertEquals("18 GetValue - Small Int ", "-31000", getFldValue(fldSmallInt));
-        assertEquals("19 GetValue - Int ", "-1000000000", getFldValue(fldInt));
-        assertEquals("20 GetValue - Long ", "-100000000000000000", getFldValue(fldLong));
-        assertEquals("21 GetValue - Mainframe Small Int ",
-                "-31000", getFldValue(fldMainframeSmallInt));
-        assertEquals("22 GetValue - Mainframe Long ",
-                "-100000000000000000", getFldValue(fldMainframeLong));
-        assertEquals("23 GetValue - Mainframe Packed ", "-12345",
-                getFldValue(fldMainframePackedDecimal));
-        assertEquals("24 GetValue - Mainframe Packed with decimal",
-                "-1234.0", getFldValue(fldMainframePackedwithDecimal));
+        Assert.assertEquals("14 GetValue - Num 2 Decimal Digits ", "-34.56", getFldValue(fldNum2decimal1));
+        Assert.assertEquals("15 GetValue - Mainframe Binary ", "-54321", getFldValue(fldMainframeInt));
+        Assert.assertEquals("16 GetValue - Mainframe Binary with Decimal", "-4000000.00", getFldValue(fldMainframeInt2decimal));
+        Assert.assertEquals("17 GetValue - Byte ", "-128", getFldValue(fldByte));
+        Assert.assertEquals("18 GetValue - Small Int ", "-31000", getFldValue(fldSmallInt));
+        Assert.assertEquals("19 GetValue - Int ", "-1000000000", getFldValue(fldInt));
+        Assert.assertEquals("20 GetValue - Long ", "-100000000000000000", getFldValue(fldLong));
+        Assert.assertEquals("21 GetValue - Mainframe Small Int ", "-31000", getFldValue(fldMainframeSmallInt));
+        Assert.assertEquals("22 GetValue - Mainframe Long ", "-100000000000000000", getFldValue(fldMainframeLong));
+        Assert.assertEquals("23 GetValue - Mainframe Packed ", "-12345", getFldValue(fldMainframePackedDecimal));
+        Assert.assertEquals("24 GetValue - Mainframe Packed with decimal", "-1234.0", getFldValue(fldMainframePackedwithDecimal));
 
-        assertEquals("25 GetValue - Mainframe Zoned ", "12", getFldValue(fldZoned));
-        assertEquals("26 GetValue - Mainframe Zoned with decimal",
-                "12.12", getFldValue(fldZonedWithDecimal));
+        Assert.assertEquals("25 GetValue - Mainframe Zoned ", "12", getFldValue(fldZoned));
+        Assert.assertEquals("26 GetValue - Mainframe Zoned with decimal", "12.12", getFldValue(fldZonedWithDecimal));
 
-        assertEquals("27 GetValue - Bit 1byte ", "11000000", getFldValue(fldBit1));
-        assertEquals("28 GetValue - Bit 2byte ", "1100000110000011", getFldValue(fldBit2));
+        Assert.assertEquals("27 GetValue - Bit 1byte ", "11000000", getFldValue(fldBit1));
+        Assert.assertEquals("28 GetValue - Bit 2byte ", "1100000110000011", getFldValue(fldBit2));
     }
 
 
@@ -311,6 +312,7 @@ public class TstBinType extends TestCase {
      *
      * @throws RecordException conversion error (should not occur)
      */
+    @Test
     public void testSetField() throws RecordException {
 
         checkAssignment(" 3 setField - Decimal Field ", fldDecimal, "456");
@@ -466,6 +468,7 @@ public class TstBinType extends TestCase {
     }
 
 
+    @Test
     public void testZoned() throws RecordException {
 
         int i;
@@ -481,12 +484,13 @@ public class TstBinType extends TestCase {
 
             setFldValue(fldZoned, "+" + s);
             t = getFldValue(fldZoned);
-            assertEquals("Zoned Error on +" + i + " " + t + " <> " + s, s, t);
+            Assert.assertEquals("Zoned Error on +" + i + " " + t + " <> " + s, s, t);
         }
         //getFldValue(fld);
     }
 
 
+    @Test
     public void testZoned2() throws RecordException {
 
         int i;
@@ -501,7 +505,7 @@ public class TstBinType extends TestCase {
 
             setFldValue(fldZonedWithDecimal, "+" + s);
             t = getFldValue(fldZonedWithDecimal);
-            assertEquals("Zoned Error on +" + i + " " + t + " <> " + s, s, t);
+            Assert.assertEquals("Zoned Error on +" + i + " " + t + " <> " + s, s, t);
         }
         //getFldValue(fld);
     }
@@ -521,7 +525,7 @@ public class TstBinType extends TestCase {
         String s;
         setFldValue(fld, val);
         s = getFldValue(fld);
-        assertEquals(msg + " " + s + " <> " + val, val, s);
+        Assert.assertEquals(msg + " " + s + " <> " + val, val, s);
     }
 
 
@@ -542,14 +546,14 @@ public class TstBinType extends TestCase {
 
         s = typeManager.getType(Type.ftHex).getField(rec, fld.getPos(), fld).toString();
 
-        assertEquals(msg + " hex check " + s + " <> " + hexVal, hexVal, s);
+        Assert.assertEquals(msg + " hex check " + s + " <> " + hexVal, hexVal, s);
 /*        if (!s.equals(hexVal)) {
             System.out.println("==> " + msg + " " + fldNum + " " + val
                 + " " + line.getField(0, fldNum) + " " + s + " " + hexVal);
         }*/
 
         s = getFldValue(fld);
-        assertEquals(msg + " " + s + " <> " + val, val, s);
+        Assert.assertEquals(msg + " " + s + " <> " + val, val, s);
     }
 
 
@@ -589,7 +593,7 @@ public class TstBinType extends TestCase {
         }
 
         s = getFldValue(fld);
-        assertEquals(msg + " " + s + " <> " + val, val, s);
+        Assert.assertEquals(msg + " " + s + " <> " + val, val, s);
     }
 
     private void checkAssignmentText1(String msg, FieldDetail fld, String val, String text)
@@ -607,13 +611,14 @@ public class TstBinType extends TestCase {
         }
 
         s = getFldValue(fld);
-        assertEquals(msg + " " + s + " <> " + val, text, s);
+        Assert.assertEquals(msg + " " + s + " <> " + val, text, s);
     }
 
 
     /**
      * Test Line.setFieldConversion
      */
+    @Test
     public void testSetFieldConversion() {
 
         checkConversionError(" 2 setField - Decimal Field ", fldDecimal);
@@ -664,6 +669,7 @@ public class TstBinType extends TestCase {
     /**
      * Test Line.setFieldConversion
      */
+    @Test
     public void testSetFieldSizeError() {
 
         checkSizeError(" 2 setField - Decimal Field ", fldDecimal, "12345678901");
@@ -714,11 +720,19 @@ public class TstBinType extends TestCase {
      */
     private void checkSizeError(String msg, FieldDetail fld, String value) {
 
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        log.addAppender(listAppender);
+
         try {
             setFldValue(fld, value);
-
             System.out.println("::> " + msg + " " + value + " :: " + getFldValue(fld));
-            throw new AssertionError("Size Error: " + msg + " " + value + " :: " + getFldValue(fld));
+            List<ILoggingEvent> logsList = listAppender.list;
+            Assert.assertEquals(Level.WARN, logsList.get(0).getLevel());
+            Assert.assertEquals("Value length is to big for field length. Probably the data file is corrupted", logsList.get(0).getMessage());
+
+
+//            throw new AssertionError("Size Error: " + msg + " " + value + " :: " + getFldValue(fld));
         } catch (RecordException e) {
         }
     }
@@ -756,13 +770,13 @@ public class TstBinType extends TestCase {
     /**
      * Check retrieving Mainframe Field etc
      */
+    @Test
     public void testMainframe() {
         String expected = "69694158";
 
         FieldDetail fld = getTypeMainframe(1, 8, Type.ftChar, 0);
         String s = typeManager.getType(fld.getType()).getField(recDtar020, fld.getPos(), fld).toString();
-        assertEquals("Testing Mainframe getField " + expected + " <> " + s,
-                expected, s);
+        Assert.assertEquals("Testing Mainframe getField " + expected + " <> " + s, expected, s);
 
         try {
             typeManager.getType(fld.getType()).setField(recDtar020, fld.getPos(), fld, "1");
