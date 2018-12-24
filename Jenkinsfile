@@ -89,7 +89,7 @@ pipeline {
 
 static void putArtifacts() {
     Path sourceDir = Paths.get("tmp/net/sf/JRecord")
-    def closure = {
+    groovy.lang.Closure closure = {
         it.eachFile {
             Path targetArtifact = Paths.get(
                     it.toString()
