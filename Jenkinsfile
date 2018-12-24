@@ -73,6 +73,7 @@ pipeline {
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts_test'
                     sh 'touch testFile && ls'
+                    sh 'realpath tmp/'
 
 //                    putArtifacts()
                     script {
