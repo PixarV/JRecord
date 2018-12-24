@@ -75,12 +75,8 @@ pipeline {
 
 //                    putArtifacts()
                     script {
-//                        def testFile = Paths.get("testFile")
-//                        println testFile.toAbsolutePath().toString()
-//                        Files.delete(testFile)
                         Path sourceDir = Paths.get("/var/jenkins_home/workspace/HRWD-497_Publish_with_versioning/tmp")
-                        println sourceDir.toAbsolutePath().toString()
-                        println sourceDir.toFile().exists()
+
                         for (File file : sourceDir.toFile().listFiles()) {
                             println file.toString()
 
@@ -94,17 +90,18 @@ pipeline {
 
                                 File targetArtifactFile = targetArtifact.toFile()
                                 if (targetArtifactFile.exists()) {
-                                    if (targetArtifactFile.isDirectory()) {
-                                        targetArtifactFile.deleteDir()
-                                    } else {
-                                        targetArtifactFile.delete()
-                                    }
+//                                    if (targetArtifactFile.isDirectory()) {
+//                                        targetArtifactFile.deleteDir()
+//                                    } else {
+//                                        targetArtifactFile.delete()
+//                                    }
+                                    println targetArtifactFile.toString()
                                 }
-                                Files.copy(artifact.toPath(), targetArtifact)
+//                                Files.copy(artifact.toPath(), targetArtifact)
                             }
                         }
 
-                        new File("tmp/").deleteDir()
+                        sourceDir.deleteDir()
                     }
                     sh 'ls'
 
