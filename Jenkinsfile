@@ -90,14 +90,13 @@ pipeline {
 
                                 File targetArtifactFile = targetArtifact.toFile()
                                 if (targetArtifactFile.exists()) {
-//                                    if (targetArtifactFile.isDirectory()) {
-//                                        targetArtifactFile.deleteDir()
-//                                    } else {
-//                                        targetArtifactFile.delete()
-//                                    }
-                                    println targetArtifactFile.toString()
+                                    if (targetArtifactFile.isDirectory()) {
+                                        targetArtifactFile.deleteDir()
+                                    } else {
+                                        targetArtifactFile.delete()
+                                    }
                                 }
-//                                Files.copy(artifact.toPath(), targetArtifact)
+                                Files.copy(artifact.toPath(), targetArtifact)
                             }
                         }
 
