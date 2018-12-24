@@ -63,7 +63,7 @@ public final class Conversion {
 	private static HoldEbcidicFlag holdEbcidicFlag = DEFAULT_CHARSET_DETAILS;
 	public static String DEFAULT_ASCII_CHARSET ;
 	public static final boolean IS_DEFAULT_CHARSET_SINGLE_BYTE_EBCIDIC = DEFAULT_CHARSET_DETAILS.isSingleByteEbcidic;// isSingleByteEbcidicI("");
-    private static final String VALUE_IS_TO_BIG_FOR_FIELD = "Value length is to big for field length. Probably the data file is corrupted";
+    private static final String VALUE_IS_TO_BIG_FOR_FIELD = "Value length is to big for field %d. Expected %d, actual is %d. Probably the data file is corrupted";
 	private static final byte BYTE_NO_BIT_SET   =  0;
 	private static final byte BYTE_ALL_BITS_SET = -1;
 
@@ -603,7 +603,7 @@ public final class Conversion {
 //			System.out.println(" To Big " +  isPositive
 //					+ " > " + pos + " " + bytes.length  + " ~ " + len
 //					+ " " + bytes[0]);
-			log.warn(VALUE_IS_TO_BIG_FOR_FIELD);
+			log.warn(String.format(VALUE_IS_TO_BIG_FOR_FIELD, pos, len, bytes.length));
 		}
 
 		if (val.signum() < 0) {
@@ -639,7 +639,7 @@ public final class Conversion {
 				record[base - i] = bytes[i+1];
 			}
 		} else {
-			log.warn(VALUE_IS_TO_BIG_FOR_FIELD);
+			log.warn(String.format(VALUE_IS_TO_BIG_FOR_FIELD, pos, len, bytes.length));
 		}
 
 

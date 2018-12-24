@@ -664,8 +664,6 @@ public class TstLineBin {
             System.out.println("::> " + msg + " " + value + " :: " + line.getField(0, fldNum));
             List<ILoggingEvent> logsList = listAppender.list;
             assertEquals(Level.WARN, logsList.get(0).getLevel());
-            assertEquals("Value length is to big for field length. Probably the data file is corrupted", logsList.get(0).getMessage());
-
 
 //            throw new AssertionError("Size Error: " + msg);
         } catch (RecordException e) {

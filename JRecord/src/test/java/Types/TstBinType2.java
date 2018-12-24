@@ -359,7 +359,6 @@ public class TstBinType2 {
         } catch (RecordException | NullPointerException e) {
         }
         Assert.assertEquals(Level.WARN, logsList.get(0).getLevel());
-        Assert.assertEquals("Value length is to big for field length. Probably the data file is corrupted", logsList.get(0).getMessage());
     }
 
 
