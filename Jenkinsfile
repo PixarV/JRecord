@@ -101,7 +101,7 @@ pipeline {
                             }
                         }
 
-                        sourceDir.deleteDir()
+                        sourceDir.toFile().deleteDir()
                     }
                     sh 'ls'
 
