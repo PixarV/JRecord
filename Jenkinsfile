@@ -80,7 +80,8 @@ pipeline {
 //                        println testFile.toAbsolutePath().toString()
 //                        Files.delete(testFile)
                         Path sourceDir = Paths.get("tmp/net/sf/JRecord")
-
+                        println sourceDir.toAbsolutePath().toString()
+                        println sourceDir.toFile().exists()
                         for (File file : sourceDir.toFile().listFiles()) {
                             println file.toString()
 
