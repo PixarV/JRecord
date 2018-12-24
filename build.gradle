@@ -9,7 +9,7 @@ subprojects {
     //TODO: if hasProperty release -> version = else version= SNAPSHOT 
 
     //Last release version
-    version = '0.85.1.1'
+    version = '0.85.1.2'
     group = 'net.sf.JRecord'
     
     repositories {
