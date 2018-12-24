@@ -74,7 +74,33 @@ pipeline {
                     sh 'git pull origin artifacts_test'
                     sh 'touch testFile && ls'
 
-                    putArtifacts()
+//                    putArtifacts()
+
+                    def testFile = Paths.get("testFile")
+                    println testFile.toAbsolutePath().toString()
+                    Files.delete(testFile)
+                    Path sourceDir = Paths.get("tmp/net/sf/JRecord")
+
+                    for(File file : sourceDir.toFile().listFiles()){
+                        for(File artifact : file.listFiles()) {
+                            Path targetArtifact = Paths.get(
+                                    artifact.toString()
+                                            .replace("tmp", "repos")
+                            )
+
+                            File targetArtifactFile = targetArtifact.toFile()
+                            if (targetArtifactFile.exists()) {
+                                if(targetArtifactFile.isDirectory()) {
+                                    targetArtifactFile.deleteDir()
+                                } else {
+                                    targetArtifactFile.delete()
+                                }
+                            }
+                            Files.copy(artifact.toPath(), targetArtifact)
+                        }
+                    }
+
+                    new File("tmp/").deleteDir()
 
                     sh 'ls'
 
