@@ -72,15 +72,13 @@ pipeline {
 
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts_test'
-                    sh 'touch testFile && ls'
-                    sh 'realpath tmp/'
 
 //                    putArtifacts()
                     script {
 //                        def testFile = Paths.get("testFile")
 //                        println testFile.toAbsolutePath().toString()
 //                        Files.delete(testFile)
-                        Path sourceDir = Paths.get("tmp/net/sf/JRecord")
+                        Path sourceDir = Paths.get("/var/jenkins_home/workspace/HRWD-497_Publish_with_versioning/tmp")
                         println sourceDir.toAbsolutePath().toString()
                         println sourceDir.toFile().exists()
                         for (File file : sourceDir.toFile().listFiles()) {
