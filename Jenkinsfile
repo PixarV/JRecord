@@ -29,19 +29,19 @@ pipeline {
                 sh './gradlew compileJava'
             }
         }
-        stage("Test fast") {
-            steps {
-                sh './gradlew test'
-            }
-        }
-        stage("Test slow") {
-            when {
-                branch 'master'
-            }
-            steps {
-                sh './gradlew slowTest'
-            }
-        }
+//        stage("Test fast") {
+//            steps {
+//                sh './gradlew test'
+//            }
+//        }
+//        stage("Test slow") {
+//            when {
+//                branch 'master'
+//            }
+//            steps {
+//                sh './gradlew slowTest'
+//            }
+//        }
         stage("Assemble") {
             steps {
                 sh './gradlew assemble'
@@ -95,6 +95,8 @@ pipeline {
                             }
                         }
                     }
+
+                    sh 'ls -la'
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
