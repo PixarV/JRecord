@@ -28,17 +28,25 @@
 
 package Types;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import junit.framework.TestCase;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
+import java.util.List;
 
-public class TstBinType2 extends TestCase {
-
+public class TstBinType2 {
 
     private static byte[] rec1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,};
 
@@ -56,8 +64,8 @@ public class TstBinType2 extends TestCase {
             typePLE1, typePLE4, typePLE8, typePLE12,
             typeHex4, typeHex8, typeHex12;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() {
 
         typePd4 = getType(2, 4, Type.ftPackedDecimal, 0);
         typePd8 = getType(2, 8, Type.ftPackedDecimal, 0);
@@ -103,6 +111,7 @@ public class TstBinType2 extends TestCase {
         typePLE12 = getType(2, 12, Type.ftPostiveBinaryInt, 0);
     }
 
+    @Test
     public void testBE() throws RecordException {
         byte[] res1a = {0, 127};
         byte[] res1b = {0, -127};
@@ -132,6 +141,7 @@ public class TstBinType2 extends TestCase {
 
     }
 
+    @Test
     public void testPBE() throws RecordException {
         byte[] res1a = {0, -1};
         byte[] res2a = {0, -1, -1, -1, -1};
@@ -150,6 +160,7 @@ public class TstBinType2 extends TestCase {
     }
 
 
+    @Test
     public void testLE() throws RecordException {
         byte[] res1a = {0, 127};
         byte[] res1b = {0, -127};
@@ -178,6 +189,7 @@ public class TstBinType2 extends TestCase {
                 res4a, "LE 12 byte");
     }
 
+    @Test
     public void testPLE() throws RecordException {
         byte[] res1a = {0, -1};
         byte[] res2a = {0, -1, -1, -1, -1};
@@ -196,6 +208,7 @@ public class TstBinType2 extends TestCase {
     }
 
 
+    @Test
     public void testPD() throws RecordException {
 
         checkCallPD(typePd4, "9876543", "009876543c", "PD 4 byte");
@@ -217,6 +230,7 @@ public class TstBinType2 extends TestCase {
         checkCallPD(typePd12, "-098765432109876543210987", "0098765432109876543210987d", "PD 12 byte");
     }
 
+    @Test
     public void testHex() throws RecordException {
 
         checkCallPD(typeHex4, "9876543c", "009876543c", "PD 4 byte");
@@ -235,7 +249,7 @@ public class TstBinType2 extends TestCase {
         setFldValue(type, value);
 
         for (int i = 0; i < result.length; i++) {
-            assertEquals(name + " " + value + ": " + i, result[i], rec[i]);
+            Assert.assertEquals(name + " " + value + ": " + i, result[i], rec[i]);
         }
     }
 
@@ -245,9 +259,9 @@ public class TstBinType2 extends TestCase {
 
         setFldValue(type, value);
 
-        assertEquals(name + " " + value + ": 0", result[0], rec[0]);
+        Assert.assertEquals(name + " " + value + ": 0", result[0], rec[0]);
         for (int i = 1; i < result.length; i++) {
-            assertEquals(name + " " + value + ": " + i, result[result.length - i], rec[i]);
+            Assert.assertEquals(name + " " + value + ": " + i, result[result.length - i], rec[i]);
         }
     }
 
@@ -261,11 +275,12 @@ public class TstBinType2 extends TestCase {
 //			System.out.print("\t" + rec[i]);
 //		}
 //		System.out.println();
-        assertEquals(name + " " + value, result, Conversion.getDecimal(rec, 0, type.getLen() + 1));
+        Assert.assertEquals(name + " " + value, result, Conversion.getDecimal(rec, 0, type.getLen() + 1));
 
     }
 
 
+    @Test
     public void testBEsize() throws RecordException {
         Long li = ((long) Integer.MAX_VALUE) + 1;
         BigInteger bip = BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.valueOf(1));
@@ -286,6 +301,7 @@ public class TstBinType2 extends TestCase {
     }
 
 
+    @Test
     public void testLEsize() throws RecordException {
         Long li = ((long) Integer.MAX_VALUE) + 1;
         BigInteger bip = BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.valueOf(1));
@@ -307,6 +323,7 @@ public class TstBinType2 extends TestCase {
     }
 
 
+    @Test
     public void testPDsize() throws RecordException {
 
         checkSizeError(typePd4, "19876543", "PD 4 byte");
@@ -328,13 +345,21 @@ public class TstBinType2 extends TestCase {
      */
     private void checkSizeError(FieldDetail fld, Object value, String msg) {
 
+        Logger log = (Logger) LoggerFactory.getLogger(Conversion.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        log.addAppender(listAppender);
+        List<ILoggingEvent> logsList = listAppender.list;
+
         try {
             setFldValue(fld, value);
-
             System.out.println("::> " + msg + " " + value + " :: " + getFldValue(fld));
-            throw new AssertionError("Size Error: " + msg + " " + value + " :: " + getFldValue(fld));
-        } catch (RecordException e) {
+
+//            throw new AssertionError("Size Error: " + msg + " " + value + " :: " + getFldValue(fld));
+        } catch (RecordException | NullPointerException e) {
         }
+        Assert.assertEquals(Level.WARN, logsList.get(0).getLevel());
+        Assert.assertEquals("Value length is to big for field length. Probably the data file is corrupted", logsList.get(0).getMessage());
     }
 
 
