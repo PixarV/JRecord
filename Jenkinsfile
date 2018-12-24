@@ -96,8 +96,9 @@ static void putArtifacts() {
                             .replace("tmp", "repos")
             )
 
-            if (targetArtifact.toFile().isDirectory()) {
-                targetArtifact.deleteDir()
+            File targetArtifactFile = targetArtifact.toFile()
+            if (targetArtifactFile.exists()) {
+                targetArtifactFile.delete()
             }
             Files.copy(it, targetArtifact)
         }
