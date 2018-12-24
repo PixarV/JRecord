@@ -107,13 +107,17 @@ static void putArtifacts() {
     for(File file : sourceDir.toFile().listFiles()){
         for(File artifact : file.listFiles()) {
             Path targetArtifact = Paths.get(
-                    file.toString()
+                    artifact.toString()
                             .replace("tmp", "repos")
             )
 
             File targetArtifactFile = targetArtifact.toFile()
             if (targetArtifactFile.exists()) {
-                targetArtifactFile.delete()
+                if(targetArtifactFile.isDirectory()) {
+                    targetArtifactFile.deleteDir()
+                } else {
+                    targetArtifactFile.delete()
+                }
             }
             Files.copy(artifact.toPath(), targetArtifact)
         }
