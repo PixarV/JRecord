@@ -76,23 +76,7 @@ pipeline {
 //                    sh 'chmod u+x put_artifacts.sh'
 //                    sh './put_artifacts.sh'
                     script {
-//                        putArtifacts()
-                        Path sourceDir = Paths.get("tmp/net/sf/JRecord")
-                        groovy.lang.Closure closure = {
-                            it.eachFile {
-                                Path targetArtifact = Paths.get(
-                                        it.toString()
-                                                .replace("tmp", "repos")
-                                )
-
-                                File targetArtifactFile = targetArtifact.toFile()
-                                if (targetArtifactFile.exists()) {
-                                    targetArtifactFile.delete()
-                                }
-                                Files.copy(it, targetArtifact)
-                            }
-                        }
-                        sourceDir.eachDir(closure)
+                        putArtifacts()
                     }
 
                     sh 'git add repos/'
@@ -103,10 +87,10 @@ pipeline {
         }
     }
 }
-//
-//static void putArtifacts() {
-//    Path sourceDir = Paths.get("tmp/net/sf/JRecord")
-//    groovy.lang.Closure closure = {
+
+static void putArtifacts() {
+    Path sourceDir = Paths.get("tmp/net/sf/JRecord")
+//    sourceDir.eachDir {
 //        it.eachFile {
 //            Path targetArtifact = Paths.get(
 //                    it.toString()
@@ -120,5 +104,18 @@ pipeline {
 //            Files.copy(it, targetArtifact)
 //        }
 //    }
-//    sourceDir.eachDir(closure)
-//}
+    for(File file : sourceDir.toFile().listFiles()){
+        for(File artifact : file.listFiles()) {
+            Path targetArtifact = Paths.get(
+                    file.toString()
+                            .replace("tmp", "repos")
+            )
+
+            File targetArtifactFile = targetArtifact.toFile()
+            if (targetArtifactFile.exists()) {
+                targetArtifactFile.delete()
+            }
+            Files.copy(artifact.toPath(), targetArtifact)
+        }
+    }
+}
