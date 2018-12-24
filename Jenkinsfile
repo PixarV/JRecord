@@ -89,7 +89,7 @@ pipeline {
 
 static void putArtifacts() {
 
-    new File("testFile").delete()
+    Files.delete(Paths.get("testFile"))
 
     Path sourceDir = Paths.get("tmp/net/sf/JRecord")
 
