@@ -1,3 +1,7 @@
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+
 pipeline {
     agent any
     tools {
@@ -69,14 +73,33 @@ pipeline {
                     sh 'git checkout artifacts || git checkout -b artifacts origin/artifacts'
                     sh 'git pull origin artifacts'
 
-                    sh 'chmod u+x put_artifacts.sh'
-                    sh './put_artifacts.sh'
+//                    sh 'chmod u+x put_artifacts.sh'
+//                    sh './put_artifacts.sh'
+
+                    putArtifacts()
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
                     sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts'
                 }
             }
+        }
+    }
+}
+
+static void putArtifacts() {
+    Path sourceDir = Paths.get("tmp/net/sf/JRecord")
+    sourceDir.eachDir {
+        it.eachFile {
+            Path targetArtifact = Paths.get(
+                                it.toString()
+                                  .replace("tmp", "repos")
+                            )
+
+            if(targetArtifact.toFile().isDirectory()) {
+                targetArtifact.deleteDir()
+            }
+            Files.copy(it, targetArtifact)
         }
     }
 }
