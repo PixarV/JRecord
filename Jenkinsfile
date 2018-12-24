@@ -80,6 +80,10 @@ pipeline {
                         for (File file : sourceDir.toFile().listFiles()) {
                             println file.toString()
 
+                            new File(file.toString()
+                                    .replace("tmp", "repos"))
+                            .mkdirs()
+
                             for (File artifact : file.listFiles()) {
                                 println artifact.toString()
 
