@@ -35,6 +35,8 @@
       
 package net.sf.JRecord.Common;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
@@ -50,6 +52,7 @@ import java.util.Locale;
  * @author Bruce Martin
  *
  */
+@Slf4j
 public final class Conversion {
 
 	public static final HoldEbcidicFlag DEFAULT_CHARSET_DETAILS = new HoldEbcidicFlag("");
@@ -60,7 +63,7 @@ public final class Conversion {
 	private static HoldEbcidicFlag holdEbcidicFlag = DEFAULT_CHARSET_DETAILS;
 	public static String DEFAULT_ASCII_CHARSET ;
 	public static final boolean IS_DEFAULT_CHARSET_SINGLE_BYTE_EBCIDIC = DEFAULT_CHARSET_DETAILS.isSingleByteEbcidic;// isSingleByteEbcidicI("");
-    private static final String VALUE_IS_TO_BIG_FOR_FIELD = "Value is to big for field {0} > {1} {2} ~ {3} {4}";
+    private static final String VALUE_IS_TO_BIG_FOR_FIELD = "Value length is to big for field length. Probably the data file is corrupted";
 	private static final byte BYTE_NO_BIT_SET   =  0;
 	private static final byte BYTE_ALL_BITS_SET = -1;
 
@@ -600,9 +603,7 @@ public final class Conversion {
 //			System.out.println(" To Big " +  isPositive
 //					+ " > " + pos + " " + bytes.length  + " ~ " + len
 //					+ " " + bytes[0]);
-			throw new RecordException(
-					VALUE_IS_TO_BIG_FOR_FIELD,
-					new Object[] {isPositive, pos, bytes.length , len, bytes[0]});
+			log.warn(VALUE_IS_TO_BIG_FOR_FIELD);
 		}
 
 		if (val.signum() < 0) {
@@ -638,9 +639,7 @@ public final class Conversion {
 				record[base - i] = bytes[i+1];
 			}
 		} else {
-			throw new RecordException(
-					VALUE_IS_TO_BIG_FOR_FIELD,
-					new Object[] {isPositive, pos, bytes.length, len,bytes[0]});
+			log.warn(VALUE_IS_TO_BIG_FOR_FIELD);
 		}
 
 
