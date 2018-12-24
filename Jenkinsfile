@@ -75,7 +75,7 @@ pipeline {
 
 //                    putArtifacts()
                     script {
-                        Path sourceDir = Paths.get("/var/jenkins_home/workspace/HRWD-497_Publish_with_versioning/tmp")
+                        Path sourceDir = Paths.get("/var/jenkins_home/workspace/HRWD-497_Publish_with_versioning/tmp/net/sf/JRecord")
 
                         for (File file : sourceDir.toFile().listFiles()) {
                             println file.toString()
