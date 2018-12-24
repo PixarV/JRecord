@@ -75,8 +75,9 @@ pipeline {
 
 //                    sh 'chmod u+x put_artifacts.sh'
 //                    sh './put_artifacts.sh'
-
-                    putArtifacts()
+                    script {
+                        putArtifacts()
+                    }
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
