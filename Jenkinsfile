@@ -73,7 +73,7 @@ pipeline {
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts_test'
                     sh 'git checkout artifacts'
-                    sh 'git branch -d artifacts_test && git checkout -b artifacts_test origin/artifacts_test'
+                    sh 'git branch -D artifacts_test && git checkout -b artifacts_test origin/artifacts_test'
 
                     sh 'ls -la'
 
