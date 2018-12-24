@@ -89,6 +89,7 @@ pipeline {
                                 )
 
                                 File targetArtifactFile = targetArtifact.toFile()
+                                println targetArtifactFile.exists()
                                 if (targetArtifactFile.exists()) {
                                     if (targetArtifactFile.isDirectory()) {
                                         targetArtifactFile.deleteDir()
