@@ -76,7 +76,23 @@ pipeline {
 //                    sh 'chmod u+x put_artifacts.sh'
 //                    sh './put_artifacts.sh'
                     script {
-                        putArtifacts()
+//                        putArtifacts()
+                        Path sourceDir = Paths.get("tmp/net/sf/JRecord")
+                        groovy.lang.Closure closure = {
+                            it.eachFile {
+                                Path targetArtifact = Paths.get(
+                                        it.toString()
+                                                .replace("tmp", "repos")
+                                )
+
+                                File targetArtifactFile = targetArtifact.toFile()
+                                if (targetArtifactFile.exists()) {
+                                    targetArtifactFile.delete()
+                                }
+                                Files.copy(it, targetArtifact)
+                            }
+                        }
+                        sourceDir.eachDir(closure)
                     }
 
                     sh 'git add repos/'
@@ -87,22 +103,22 @@ pipeline {
         }
     }
 }
-
-static void putArtifacts() {
-    Path sourceDir = Paths.get("tmp/net/sf/JRecord")
-    groovy.lang.Closure closure = {
-        it.eachFile {
-            Path targetArtifact = Paths.get(
-                    it.toString()
-                            .replace("tmp", "repos")
-            )
-
-            File targetArtifactFile = targetArtifact.toFile()
-            if (targetArtifactFile.exists()) {
-                targetArtifactFile.delete()
-            }
-            Files.copy(it, targetArtifact)
-        }
-    }
-    sourceDir.eachDir(closure)
-}
+//
+//static void putArtifacts() {
+//    Path sourceDir = Paths.get("tmp/net/sf/JRecord")
+//    groovy.lang.Closure closure = {
+//        it.eachFile {
+//            Path targetArtifact = Paths.get(
+//                    it.toString()
+//                            .replace("tmp", "repos")
+//            )
+//
+//            File targetArtifactFile = targetArtifact.toFile()
+//            if (targetArtifactFile.exists()) {
+//                targetArtifactFile.delete()
+//            }
+//            Files.copy(it, targetArtifact)
+//        }
+//    }
+//    sourceDir.eachDir(closure)
+//}
