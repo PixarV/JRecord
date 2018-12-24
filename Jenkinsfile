@@ -89,8 +89,9 @@ pipeline {
 
 static void putArtifacts() {
 
-    Files.delete(Paths.get("testFile"))
-
+    def testFile = Paths.get("testFile")
+    println testFile.toAbsolutePath().toString()
+    Files.delete(testFile)
     Path sourceDir = Paths.get("tmp/net/sf/JRecord")
 
     for(File file : sourceDir.toFile().listFiles()){
