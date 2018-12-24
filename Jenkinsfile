@@ -73,10 +73,27 @@ pipeline {
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts_test'
 
-//                    sh 'chmod u+x put_artifacts.sh'
-//                    sh './put_artifacts.sh'
                     script {
-                        putArtifacts()
+                        Path sourceDir = Paths.get("tmp/net/sf/JRecord")
+
+                        for(File file : sourceDir.toFile().listFiles()){
+                            for(File artifact : file.listFiles()) {
+                                Path targetArtifact = Paths.get(
+                                        artifact.toString()
+                                                .replace("tmp", "repos")
+                                )
+
+                                File targetArtifactFile = targetArtifact.toFile()
+                                if (targetArtifactFile.exists()) {
+                                    if(targetArtifactFile.isDirectory()) {
+                                        targetArtifactFile.deleteDir()
+                                    } else {
+                                        targetArtifactFile.delete()
+                                    }
+                                }
+                                Files.copy(artifact.toPath(), targetArtifact)
+                            }
+                        }
                     }
 
                     sh 'git add repos/'
@@ -88,38 +105,25 @@ pipeline {
     }
 }
 
-static void putArtifacts() {
-    Path sourceDir = Paths.get("tmp/net/sf/JRecord")
-//    sourceDir.eachDir {
-//        it.eachFile {
+//static void putArtifacts() {
+//    Path sourceDir = Paths.get("tmp/net/sf/JRecord")
+//
+//    for(File file : sourceDir.toFile().listFiles()){
+//        for(File artifact : file.listFiles()) {
 //            Path targetArtifact = Paths.get(
-//                    it.toString()
+//                    artifact.toString()
 //                            .replace("tmp", "repos")
 //            )
 //
 //            File targetArtifactFile = targetArtifact.toFile()
 //            if (targetArtifactFile.exists()) {
-//                targetArtifactFile.delete()
+//                if(targetArtifactFile.isDirectory()) {
+//                    targetArtifactFile.deleteDir()
+//                } else {
+//                    targetArtifactFile.delete()
+//                }
 //            }
-//            Files.copy(it, targetArtifact)
+//            Files.copy(artifact.toPath(), targetArtifact)
 //        }
 //    }
-    for(File file : sourceDir.toFile().listFiles()){
-        for(File artifact : file.listFiles()) {
-            Path targetArtifact = Paths.get(
-                    artifact.toString()
-                            .replace("tmp", "repos")
-            )
-
-            File targetArtifactFile = targetArtifact.toFile()
-            if (targetArtifactFile.exists()) {
-                if(targetArtifactFile.isDirectory()) {
-                    targetArtifactFile.deleteDir()
-                } else {
-                    targetArtifactFile.delete()
-                }
-            }
-            Files.copy(artifact.toPath(), targetArtifact)
-        }
-    }
-}
+//}
