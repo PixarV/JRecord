@@ -97,7 +97,9 @@ pipeline {
                                         targetArtifactFile.delete()
                                     }
                                 }
+                                println "before copy method"
                                 Files.copy(artifact.toPath(), targetArtifact)
+                                println "after copy method"
                             }
                         }
 
