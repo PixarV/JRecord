@@ -51,7 +51,7 @@ pipeline {
             steps {
                 archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
                 sh './gradlew publish'
-                junit '**/build/test-results/test/TEST-*.xml'
+//                junit '**/build/test-results/test/TEST-*.xml'
             }
         }
         stage('Push artifacts') {
