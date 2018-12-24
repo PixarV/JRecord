@@ -72,6 +72,10 @@ pipeline {
 
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts_test'
+                    sh 'git checkout artifacts'
+                    sh 'git branch -d artifacts_test && git checkout -b artifacts_test origin/artifacts_test'
+
+                    sh 'ls -la'
 
                     script {
                         Path sourceDir = Paths.get("tmp/net/sf/JRecord")
@@ -97,6 +101,7 @@ pipeline {
                     }
 
                     sh 'ls -la'
+
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
