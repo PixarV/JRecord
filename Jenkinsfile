@@ -102,7 +102,7 @@ pipeline {
                                     }
                                 }
                                 println "before copy method"
-                                if(!artifact.isDirectory())
+//                                if(!artifact.isDirectory())
                                     Files.copy(artifact.toPath(), targetArtifact)
                                 println "after copy method"
                             }
