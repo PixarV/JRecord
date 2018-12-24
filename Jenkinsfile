@@ -112,5 +112,5 @@ static void putArtifacts() {
         }
     }
 
-    Paths.get("tmp/").deleteDir()
+    new File("tmp/").deleteDir()
 }
