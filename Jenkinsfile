@@ -58,17 +58,17 @@ pipeline {
 
                     checkout scm: [
                             $class  : 'GitSCM',
-                            branches: [[name: 'artifacts_test']]
+                            branches: [[name: 'artifacts']]
                     ]
 
-                    sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
-                    sh 'git pull origin artifacts_test'
+                    sh 'git checkout artifacts || git checkout -b artifacts origin/artifacts'
+                    sh 'git pull origin artifacts'
 
                     sh 'cp -r tmp/* repos/'
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
-                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts_test'
+                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts'
                 }
             }
         }
