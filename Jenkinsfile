@@ -105,12 +105,7 @@ pipeline {
                                 if(artifact.isDirectory()) {
                                     Files.walk(artifact.toPath())
                                             .sorted(Comparator.reverseOrder())
-                                            .forEach {
-                                        Files.copy(it, Paths.get(
-                                                it.toString()
-                                                        .replace("tmp", "repos")
-                                        ))
-                                    }
+                                            .forEach(copy((Path)it))
                                 } else {
                                     Files.copy(artifact.toPath(), targetArtifact)
                                 }
@@ -129,6 +124,14 @@ pipeline {
             }
         }
     }
+}
+
+
+static void copy(Path source) {
+    Files.copy(source, Paths.get(
+            source.toString()
+                    .replace("tmp", "repos")
+    ))
 }
 
 static void putArtifacts() {
