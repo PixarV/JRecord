@@ -7,20 +7,11 @@ pipeline {
         JAVA_HOME = "${jdk}"
     }
     stages {
-        stage("Fetch origin") {
-            steps {
-                checkout scm
-//                sh 'git remote remove origin'
-//                sh 'git remote add origin https://github.com/PixarV/jrecord.git'
-//                sh 'git fetch origin'
-//                sh 'git branch -a'
-            }
+        stage("Preparation") {
+            checkout scm
+            sh './gradlew clean'
         }
-        stage("Pre-build") {
-            steps {
-                sh './gradlew clean'
-            }
-        }
+
         stage("Compile project") {
             steps {
                 sh './gradlew compileJava'
@@ -68,19 +59,10 @@ pipeline {
                             branches: [[name: 'artifacts_test']]
                     ]
 
-//                    sh 'rm -rf tmp/ && mv repos/ tmp/'
-
-//                    sh 'git branch -a'
-
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts_test'
 
                     sh 'cp -r tmp/* repos/releases/'
-
-//                    script {
-//                        putArtifacts()
-//                    }
-//                    sh 'ls'
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
