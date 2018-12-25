@@ -104,6 +104,9 @@ pipeline {
                                 }
                                 println "before copy method"
                                 if(artifact.isDirectory()) {
+                                    new File(artifact.toString()
+                                            .replace("tmp", "repos"))
+                                            .mkdirs()
                                     List<Path> artifacts = Files.walk(artifact.toPath())
                                             .sorted(Comparator.reverseOrder())
                                             .collect(Collectors.toList())
