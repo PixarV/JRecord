@@ -140,7 +140,7 @@ static void copyNewArtifact(File artifact, File targetArtifact) {
 
         Files.walk(artifact.toPath())
                 .sorted(Comparator.reverseOrder())
-                .forEach(copy((Path)it))
+                .forEach(copy())
     } else {
         Files.copy(artifact.toPath(), targetArtifact.toPath())
     }
