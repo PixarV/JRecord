@@ -1,8 +1,3 @@
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.util.stream.Collectors
-
 pipeline {
     agent any
     tools {
@@ -14,10 +9,11 @@ pipeline {
     stages {
         stage("Fetch origin") {
             steps {
-                sh 'git remote remove origin'
-                sh 'git remote add origin https://github.com/PixarV/jrecord.git'
-                sh 'git fetch origin'
-                sh 'git branch -a'
+                checkout scm
+//                sh 'git remote remove origin'
+//                sh 'git remote add origin https://github.com/PixarV/jrecord.git'
+//                sh 'git fetch origin'
+//                sh 'git branch -a'
             }
         }
         stage("Pre-build") {
@@ -30,19 +26,19 @@ pipeline {
                 sh './gradlew compileJava'
             }
         }
-//        stage("Test fast") {
-//            steps {
-//                sh './gradlew test'
-//            }
-//        }
-//        stage("Test slow") {
-//            when {
-//                branch 'master'
-//            }
-//            steps {
-//                sh './gradlew slowTest'
-//            }
-//        }
+        stage("Test fast") {
+            steps {
+                sh './gradlew test'
+            }
+        }
+        stage("Test slow") {
+            when {
+                branch 'master'
+            }
+            steps {
+                sh './gradlew slowTest'
+            }
+        }
         stage("Assemble") {
             steps {
                 sh './gradlew assemble'
@@ -52,7 +48,7 @@ pipeline {
             steps {
                 archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
                 sh './gradlew publish'
-//                junit '**/build/test-results/test/TEST-*.xml'
+                junit '**/build/test-results/test/TEST-*.xml'
             }
         }
         stage('Push artifacts') {
@@ -67,9 +63,14 @@ pipeline {
                     sh 'git config credential.${origin}.username ${GIT_USERNAME}'
                     sh 'git config credential.${origin}.password ${GIT_PASSWORD}'
 
-                    sh 'rm -rf tmp/ && mv repos/ tmp/'
+                    checkout scm:[
+                            $class: 'GitSCM',
+                            branches: [[name: 'artifacts']]
+                    ]
 
-                    sh 'git branch -a'
+//                    sh 'rm -rf tmp/ && mv repos/ tmp/'
+
+//                    sh 'git branch -a'
 
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts_test'
@@ -79,7 +80,7 @@ pipeline {
 //                    script {
 //                        putArtifacts()
 //                    }
-                    sh 'ls'
+//                    sh 'ls'
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
@@ -87,59 +88,5 @@ pipeline {
                 }
             }
         }
-    }
-}
-
-static void putArtifacts() {
-    Path sourceDir = Paths.get("/var/jenkins_home/workspace/HRWD-497_Publish_with_versioning/tmp/net/sf/JRecord")
-
-    for (File file : sourceDir.toFile().listFiles()) {
-
-        new File(getTargetPath(file.toString()))
-                .mkdirs()
-
-        for (File artifact : file.listFiles()) {
-            File targetArtifact = Paths.get(getTargetPath(artifact.toString())).toFile()
-            deleteOldArtifact(targetArtifact)
-            copyNewArtifact(artifact, targetArtifact)
-        }
-    }
-
-    sourceDir.toFile().deleteDir()
-}
-
-static String getTargetPath(String source) {
-    return source
-            .replace("tmp", "repos")
-}
-
-static void deleteOldArtifact(File artifact) {
-    if (artifact.exists()) {
-        if (artifact.isDirectory()) {
-            artifact.deleteDir()
-        } else {
-            artifact.delete()
-        }
-    }
-}
-
-static void copyNewArtifact(File artifact, File targetArtifact) {
-    if(artifact.isDirectory()) {
-        new File(getTargetPath(artifact.toString()))
-                .mkdirs()
-
-        List<Path> artifacts = Files.walk(artifact.toPath())
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList())
-        for (int i = 0; i < artifacts.size(); i++) {
-            def source = artifacts.get(i)
-            if(!source.toFile().isDirectory()) {
-                Files.copy(source, Paths.get(
-                        getTargetPath(source.toString())
-                ))
-            }
-        }
-    } else {
-        Files.copy(artifact.toPath(), targetArtifact.toPath())
     }
 }
