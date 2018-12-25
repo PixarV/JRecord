@@ -74,59 +74,8 @@ pipeline {
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts_test'
 
-//                    putArtifacts()
                     script {
-                        Path sourceDir = Paths.get("/var/jenkins_home/workspace/HRWD-497_Publish_with_versioning/tmp/net/sf/JRecord")
-
-                        for (File file : sourceDir.toFile().listFiles()) {
-                            println file.toString()
-
-                            new File(file.toString()
-                                    .replace("tmp", "repos"))
-                            .mkdirs()
-
-                            for (File artifact : file.listFiles()) {
-                                println artifact.toString()
-
-                                Path targetArtifact = Paths.get(
-                                        artifact.toString()
-                                                .replace("tmp", "repos")
-                                )
-
-                                File targetArtifactFile = targetArtifact.toFile()
-                                println targetArtifactFile.exists()
-                                if (targetArtifactFile.exists()) {
-                                    if (targetArtifactFile.isDirectory()) {
-                                        targetArtifactFile.deleteDir()
-                                    } else {
-                                        targetArtifactFile.delete()
-                                    }
-                                }
-                                println "before copy method"
-                                if(artifact.isDirectory()) {
-                                    new File(artifact.toString()
-                                            .replace("tmp", "repos"))
-                                            .mkdirs()
-                                    List<Path> artifacts = Files.walk(artifact.toPath())
-                                            .sorted(Comparator.reverseOrder())
-                                            .collect(Collectors.toList())
-                                    for (int i = 0; i < artifacts.size(); i++) {
-                                        def source = artifacts.get(i)
-                                        if(!source.toFile().isDirectory()) {
-                                            Files.copy(source, Paths.get(
-                                                    source.toString()
-                                                            .replace("tmp", "repos")
-                                            ))
-                                        }
-                                    }
-                                } else {
-                                    Files.copy(artifact.toPath(), targetArtifact)
-                                }
-                                println "after copy method"
-                            }
-                        }
-
-                        sourceDir.toFile().deleteDir()
+                        putArtifacts()
                     }
                     sh 'ls'
 
@@ -139,10 +88,57 @@ pipeline {
     }
 }
 
+static void putArtifacts() {
+    Path sourceDir = Paths.get("/var/jenkins_home/workspace/HRWD-497_Publish_with_versioning/tmp/net/sf/JRecord")
 
-static void copy(Path source) {
-    Files.copy(source, Paths.get(
-            source.toString()
-                    .replace("tmp", "repos")
-    ))
+    for (File file : sourceDir.toFile().listFiles()) {
+        println file.toString()
+
+        new File(file.toString()
+                .replace("tmp", "repos"))
+                .mkdirs()
+
+        for (File artifact : file.listFiles()) {
+            println artifact.toString()
+
+            Path targetArtifact = Paths.get(
+                    artifact.toString()
+                            .replace("tmp", "repos")
+            )
+
+            File targetArtifactFile = targetArtifact.toFile()
+            println targetArtifactFile.exists()
+            if (targetArtifactFile.exists()) {
+                if (targetArtifactFile.isDirectory()) {
+                    targetArtifactFile.deleteDir()
+                } else {
+                    targetArtifactFile.delete()
+                }
+            }
+            println "before copy method"
+            if(artifact.isDirectory()) {
+                new File(artifact.toString()
+                        .replace("tmp", "repos"))
+                        .mkdirs()
+                List<Path> artifacts = Files.walk(artifact.toPath())
+                        .sorted(Comparator.reverseOrder())
+                        .collect(Collectors.toList())
+                for (int i = 0; i < artifacts.size(); i++) {
+                    def source = artifacts.get(i)
+                    if(!source.toFile().isDirectory()) {
+                        Files.copy(source, Paths.get(
+                                source.toString()
+                                        .replace("tmp", "repos")
+                        ))
+                    }
+                }
+            } else {
+                Files.copy(artifact.toPath(), targetArtifact)
+            }
+            println "after copy method"
+        }
+    }
+
+    sourceDir.toFile().deleteDir()
+
 }
