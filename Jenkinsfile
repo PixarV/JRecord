@@ -126,18 +126,28 @@ static void copyNewArtifact(File artifact, File targetArtifact) {
         new File(getTargetPath(artifact.toString()))
                 .mkdirs()
 
-        List<Path> artifacts = Files.walk(artifact.toPath())
+//        List<Path> artifacts = Files.walk(artifact.toPath())
+//                .sorted(Comparator.reverseOrder())
+//                .collect(Collectors.toList())
+//        for (int i = 0; i < artifacts.size(); i++) {
+//            def source = artifacts.get(i)
+//            if(!source.toFile().isDirectory()) {
+//                Files.copy(source, Paths.get(
+//                        getTargetPath(source.toString())
+//                ))
+//            }
+//        }
+
+        Files.walk(artifact.toPath())
                 .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList())
-        for (int i = 0; i < artifacts.size(); i++) {
-            def source = artifacts.get(i)
-            if(!source.toFile().isDirectory()) {
-                Files.copy(source, Paths.get(
-                        getTargetPath(source.toString())
-                ))
-            }
-        }
+                .forEach(copy((Path)it))
     } else {
         Files.copy(artifact.toPath(), targetArtifact.toPath())
     }
+}
+
+static void copy(Path source) {
+    Files.copy(source, Paths.get(
+            getTargetPath(source.toString())
+    ))
 }
