@@ -64,7 +64,7 @@ pipeline {
                     sh 'git checkout artifacts_test || git checkout -b artifacts_test origin/artifacts_test'
                     sh 'git pull origin artifacts_test'
 
-                    sh 'cp -r tmp/* repos/releases/'
+                    sh 'cp -r tmp/* repos/'
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
