@@ -1,6 +1,7 @@
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.stream.Collectors
 
 pipeline {
     agent any
@@ -103,9 +104,16 @@ pipeline {
                                 }
                                 println "before copy method"
                                 if(artifact.isDirectory()) {
-                                    Files.walk(artifact.toPath())
+                                    List<Path> artifacts = Files.walk(artifact.toPath())
                                             .sorted(Comparator.reverseOrder())
-                                            .forEach(copy((Path)it))
+                                            .collect(Collectors.toList())
+                                    for (int i = 0; i < artifacts.size(); i++) {
+                                        def source = artifacts.get(i)
+                                        Files.copy(source, Paths.get(
+                                                source.toString()
+                                                        .replace("tmp", "repos")
+                                        ))
+                                    }
                                 } else {
                                     Files.copy(artifact.toPath(), targetArtifact)
                                 }
@@ -128,38 +136,8 @@ pipeline {
 
 
 static void copy(Path source) {
-    println source.toString()
     Files.copy(source, Paths.get(
             source.toString()
                     .replace("tmp", "repos")
     ))
-}
-
-static void putArtifacts() {
-
-    def testFile = Paths.get("testFile")
-    println testFile.toAbsolutePath().toString()
-    Files.delete(testFile)
-    Path sourceDir = Paths.get("tmp/net/sf/JRecord")
-
-    for(File file : sourceDir.toFile().listFiles()){
-        for(File artifact : file.listFiles()) {
-            Path targetArtifact = Paths.get(
-                    artifact.toString()
-                            .replace("tmp", "repos")
-            )
-
-            File targetArtifactFile = targetArtifact.toFile()
-            if (targetArtifactFile.exists()) {
-                if(targetArtifactFile.isDirectory()) {
-                    targetArtifactFile.deleteDir()
-                } else {
-                    targetArtifactFile.delete()
-                }
-            }
-            Files.copy(artifact.toPath(), targetArtifact)
-        }
-    }
-
-    new File("tmp/").deleteDir()
 }
