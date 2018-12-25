@@ -65,7 +65,7 @@ pipeline {
 
                     checkout scm:[
                             $class: 'GitSCM',
-                            branches: [[name: 'artifacts']]
+                            branches: [[name: 'artifacts_test']]
                     ]
 
 //                    sh 'rm -rf tmp/ && mv repos/ tmp/'
