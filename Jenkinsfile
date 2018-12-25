@@ -97,31 +97,9 @@ static void putArtifacts() {
                 .mkdirs()
 
         for (File artifact : file.listFiles()) {
-
-            Path targetArtifact = Paths.get(getTargetPath(artifact.toString()))
-
-            File targetArtifactFile = targetArtifact.toFile()
-
-            deleteOldArtifact(targetArtifactFile)
-
-            if(artifact.isDirectory()) {
-                new File(getTargetPath(artifact.toString()))
-                        .mkdirs()
-
-                List<Path> artifacts = Files.walk(artifact.toPath())
-                        .sorted(Comparator.reverseOrder())
-                        .collect(Collectors.toList())
-                for (int i = 0; i < artifacts.size(); i++) {
-                    def source = artifacts.get(i)
-                    if(!source.toFile().isDirectory()) {
-                        Files.copy(source, Paths.get(
-                                getTargetPath(source.toString())
-                        ))
-                    }
-                }
-            } else {
-                Files.copy(artifact.toPath(), targetArtifact)
-            }
+            File targetArtifact = Paths.get(getTargetPath(artifact.toString())).toFile()
+            deleteOldArtifact(targetArtifact)
+            copyNewArtifact(artifact, targetArtifact)
         }
     }
 
@@ -140,5 +118,26 @@ static void deleteOldArtifact(File artifact) {
         } else {
             artifact.delete()
         }
+    }
+}
+
+static void copyNewArtifact(File artifact, File targetArtifact) {
+    if(artifact.isDirectory()) {
+        new File(getTargetPath(artifact.toString()))
+                .mkdirs()
+
+        List<Path> artifacts = Files.walk(artifact.toPath())
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList())
+        for (int i = 0; i < artifacts.size(); i++) {
+            def source = artifacts.get(i)
+            if(!source.toFile().isDirectory()) {
+                Files.copy(source, Paths.get(
+                        getTargetPath(source.toString())
+                ))
+            }
+        }
+    } else {
+        Files.copy(artifact.toPath(), targetArtifact.toPath())
     }
 }
