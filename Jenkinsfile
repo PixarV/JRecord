@@ -112,10 +112,12 @@ pipeline {
                                             .collect(Collectors.toList())
                                     for (int i = 0; i < artifacts.size(); i++) {
                                         def source = artifacts.get(i)
-                                        Files.copy(source, Paths.get(
-                                                source.toString()
-                                                        .replace("tmp", "repos")
-                                        ))
+                                        if(!source.toFile().isDirectory()) {
+                                            Files.copy(source, Paths.get(
+                                                    source.toString()
+                                                            .replace("tmp", "repos")
+                                            ))
+                                        }
                                     }
                                 } else {
                                     Files.copy(artifact.toPath(), targetArtifact)
