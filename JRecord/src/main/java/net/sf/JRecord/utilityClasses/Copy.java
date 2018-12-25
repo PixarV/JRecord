@@ -32,8 +32,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.JRecord.Common.CommonBits;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.FieldSizeException;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.IFieldValue;
@@ -58,6 +60,7 @@ import net.sf.JRecord.def.IO.builders.INewLineCreator;
  * @author Bruce Martin
  *
  */
+@Slf4j
 public class Copy {
 
 	/**
@@ -367,24 +370,28 @@ public class Copy {
 				for (fldNum = 0; fldNum < fieldCount; fldNum++) {
 					v = "";
 					IFieldValue fieldValue = outLine.getFieldValue(0, fldNum);
-					
-					if (fieldValue.isFieldInRecord()) {
-						if (fieldMapping.get(fldNum) == null) {
-							fieldValue.set(CommonBits.NULL_VALUE);
-						} else {
-							IFieldValue sfv = inLine.getFieldValue(fieldMapping.get(fldNum));
-							
-							v = null;
-							if (sfv.isFieldInRecord()) {
-								v = sfv.asString();
-							}
+					try {
 
-							if (v == null || v.length() == 0) {
+						if (fieldValue.isFieldInRecord()) {
+							if (fieldMapping.get(fldNum) == null) {
 								fieldValue.set(CommonBits.NULL_VALUE);
 							} else {
-								fieldValue.set(v);
+								IFieldValue sfv = inLine.getFieldValue(fieldMapping.get(fldNum));
+
+								v = null;
+								if (sfv.isFieldInRecord()) {
+									v = sfv.asString();
+								}
+
+								if (v == null || v.length() == 0) {
+									fieldValue.set(CommonBits.NULL_VALUE);
+								} else {
+									fieldValue.set(v);
+								}
 							}
 						}
+					} catch (FieldSizeException e) {
+						log.warn("Warning at line " + lineNumber + ": " + e.getMessage());
 					}
 				}
 				writer.write(outLine);

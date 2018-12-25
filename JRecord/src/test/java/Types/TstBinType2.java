@@ -28,23 +28,17 @@
 
 package Types;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
-import junit.framework.TestCase;
 import net.sf.JRecord.Common.Conversion;
 import net.sf.JRecord.Common.FieldDetail;
+import net.sf.JRecord.Common.FieldSizeException;
 import net.sf.JRecord.Common.RecordException;
 import net.sf.JRecord.Types.Type;
 import net.sf.JRecord.Types.TypeManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
-import java.util.List;
 
 public class TstBinType2 {
 
@@ -345,20 +339,13 @@ public class TstBinType2 {
      */
     private void checkSizeError(FieldDetail fld, Object value, String msg) {
 
-        Logger log = (Logger) LoggerFactory.getLogger(Conversion.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        log.addAppender(listAppender);
-        List<ILoggingEvent> logsList = listAppender.list;
-
         try {
             setFldValue(fld, value);
             System.out.println("::> " + msg + " " + value + " :: " + getFldValue(fld));
 
-//            throw new AssertionError("Size Error: " + msg + " " + value + " :: " + getFldValue(fld));
-        } catch (RecordException | NullPointerException e) {
+            throw new AssertionError("Size Error: " + msg + " " + value + " :: " + getFldValue(fld));
+        } catch (FieldSizeException e) {
         }
-        Assert.assertEquals(Level.WARN, logsList.get(0).getLevel());
     }
 
 

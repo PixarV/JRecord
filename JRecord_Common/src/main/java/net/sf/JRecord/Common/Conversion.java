@@ -35,8 +35,6 @@
       
 package net.sf.JRecord.Common;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
@@ -52,7 +50,6 @@ import java.util.Locale;
  * @author Bruce Martin
  *
  */
-@Slf4j
 public final class Conversion {
 
 	public static final HoldEbcidicFlag DEFAULT_CHARSET_DETAILS = new HoldEbcidicFlag("");
@@ -603,7 +600,7 @@ public final class Conversion {
 //			System.out.println(" To Big " +  isPositive
 //					+ " > " + pos + " " + bytes.length  + " ~ " + len
 //					+ " " + bytes[0]);
-			log.warn(String.format(VALUE_IS_TO_BIG_FOR_FIELD, pos, len, bytes.length));
+			throw new FieldSizeException(String.format(VALUE_IS_TO_BIG_FOR_FIELD, pos, len, bytes.length));
 		}
 
 		if (val.signum() < 0) {
@@ -639,7 +636,7 @@ public final class Conversion {
 				record[base - i] = bytes[i+1];
 			}
 		} else {
-			log.warn(String.format(VALUE_IS_TO_BIG_FOR_FIELD, pos, len, bytes.length));
+			throw new FieldSizeException(String.format(VALUE_IS_TO_BIG_FOR_FIELD, pos, len, bytes.length));
 		}
 
 
