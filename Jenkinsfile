@@ -128,6 +128,7 @@ pipeline {
 
 
 static void copy(Path source) {
+    println source.toString()
     Files.copy(source, Paths.get(
             source.toString()
                     .replace("tmp", "repos")
