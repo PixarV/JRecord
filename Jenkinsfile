@@ -94,17 +94,13 @@ static void putArtifacts() {
     for (File file : sourceDir.toFile().listFiles()) {
         println file.toString()
 
-        new File(file.toString()
-                .replace("tmp", "repos"))
+        new File(getTargetPath(file.toString()))
                 .mkdirs()
 
         for (File artifact : file.listFiles()) {
             println artifact.toString()
 
-            Path targetArtifact = Paths.get(
-                    artifact.toString()
-                            .replace("tmp", "repos")
-            )
+            Path targetArtifact = Paths.get(getTargetPath(artifact.toString()))
 
             File targetArtifactFile = targetArtifact.toFile()
             println targetArtifactFile.exists()
@@ -117,9 +113,9 @@ static void putArtifacts() {
             }
             println "before copy method"
             if(artifact.isDirectory()) {
-                new File(artifact.toString()
-                        .replace("tmp", "repos"))
+                new File(getTargetPath(artifact.toString()))
                         .mkdirs()
+
                 List<Path> artifacts = Files.walk(artifact.toPath())
                         .sorted(Comparator.reverseOrder())
                         .collect(Collectors.toList())
@@ -127,8 +123,7 @@ static void putArtifacts() {
                     def source = artifacts.get(i)
                     if(!source.toFile().isDirectory()) {
                         Files.copy(source, Paths.get(
-                                source.toString()
-                                        .replace("tmp", "repos")
+                                getTargetPath(source.toString())
                         ))
                     }
                 }
@@ -140,5 +135,9 @@ static void putArtifacts() {
     }
 
     sourceDir.toFile().deleteDir()
+}
 
+static String getTargetPath(String source) {
+    return source
+            .replace("tmp", "repos")
 }
