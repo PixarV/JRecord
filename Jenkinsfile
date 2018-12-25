@@ -92,26 +92,18 @@ static void putArtifacts() {
     Path sourceDir = Paths.get("/var/jenkins_home/workspace/HRWD-497_Publish_with_versioning/tmp/net/sf/JRecord")
 
     for (File file : sourceDir.toFile().listFiles()) {
-        println file.toString()
 
         new File(getTargetPath(file.toString()))
                 .mkdirs()
 
         for (File artifact : file.listFiles()) {
-            println artifact.toString()
 
             Path targetArtifact = Paths.get(getTargetPath(artifact.toString()))
 
             File targetArtifactFile = targetArtifact.toFile()
-            println targetArtifactFile.exists()
-            if (targetArtifactFile.exists()) {
-                if (targetArtifactFile.isDirectory()) {
-                    targetArtifactFile.deleteDir()
-                } else {
-                    targetArtifactFile.delete()
-                }
-            }
-            println "before copy method"
+
+            deleteOldArtifact(targetArtifactFile)
+
             if(artifact.isDirectory()) {
                 new File(getTargetPath(artifact.toString()))
                         .mkdirs()
@@ -130,7 +122,6 @@ static void putArtifacts() {
             } else {
                 Files.copy(artifact.toPath(), targetArtifact)
             }
-            println "after copy method"
         }
     }
 
@@ -140,4 +131,14 @@ static void putArtifacts() {
 static String getTargetPath(String source) {
     return source
             .replace("tmp", "repos")
+}
+
+static void deleteOldArtifact(File artifact) {
+    if (artifact.exists()) {
+        if (artifact.isDirectory()) {
+            artifact.deleteDir()
+        } else {
+            artifact.delete()
+        }
+    }
 }
