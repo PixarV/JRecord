@@ -103,8 +103,13 @@ pipeline {
                                 }
                                 println "before copy method"
                                 if(artifact.isDirectory()) {
-                                    new AntBuilder().copy(todir: targetArtifact) {
-                                        fileset(dir: artifact.toString())
+                                    Files.walk(artifact.toPath())
+                                            .sorted(Comparator.reverseOrder())
+                                            .forEach {
+                                        Files.copy(it, Paths.get(
+                                                it.toString()
+                                                        .replace("tmp", "repos")
+                                        ))
                                     }
                                 } else {
                                     Files.copy(artifact.toPath(), targetArtifact)
