@@ -8,8 +8,10 @@ pipeline {
     }
     stages {
         stage("Preparation") {
-            checkout scm
-            sh './gradlew clean'
+            steps {
+                checkout scm
+                sh './gradlew clean'
+            }
         }
 
         stage("Compile project") {
@@ -54,8 +56,8 @@ pipeline {
                     sh 'git config credential.${origin}.username ${GIT_USERNAME}'
                     sh 'git config credential.${origin}.password ${GIT_PASSWORD}'
 
-                    checkout scm:[
-                            $class: 'GitSCM',
+                    checkout scm: [
+                            $class  : 'GitSCM',
                             branches: [[name: 'artifacts_test']]
                     ]
 
