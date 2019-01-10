@@ -199,7 +199,7 @@ public class Cobol2JsonImp extends CobolSchemaReader<ICobol2Json> implements ICo
 	        try {
 				writer.flush();
 				writer.close();
-				jsonStream.close();
+//				jsonStream.close();
 				r.close();
 			} catch (Exception e) {
 				e.printStackTrace();
