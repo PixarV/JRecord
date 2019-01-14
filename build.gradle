@@ -6,10 +6,8 @@ subprojects {
     sourceCompatibility = JavaVersion.VERSION_1_10
     targetCompatibility = JavaVersion.VERSION_1_10
 
-    //TODO: if hasProperty release -> version = else version= SNAPSHOT 
-
     //Last release version
-    version = '0.85.1.3'
+    version = '0.85.1.4'
     group = 'net.sf.JRecord'
     
     repositories {
