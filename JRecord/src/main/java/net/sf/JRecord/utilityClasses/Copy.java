@@ -384,7 +384,11 @@ public class Copy {
 								}
 
 								if (v == null || v.length() == 0) {
-									fieldValue.set(CommonBits.NULL_VALUE);
+									if (isZeroString(sfv.asHex())) {
+										fieldValue.setHex(sfv.asHex());
+									} else {
+										fieldValue.set(CommonBits.NULL_VALUE);
+									}
 								} else {
 									fieldValue.set(v);
 								}
@@ -442,4 +446,13 @@ public class Copy {
 		}
 		
 	}
+
+	private static boolean isZeroString(String hexString) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < hexString.length(); i++) {
+			builder.append('0');
+		}
+		return hexString.equals(builder.toString());
+	}
+
 }
