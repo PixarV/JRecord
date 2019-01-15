@@ -3,6 +3,13 @@ from BRUCE A. MARTIN repository [repository](https://github.com/svn2github/jreco
 
 ## CURRENT VERSION: SNAPSHOT '0.85.1.2'
 
+### 2019.01.15 SNAPSHOT '0.85.1.5' Issue: "Task-552 ebcdic to ascii conversion bug with '00' hex value "
+    '00' hex value convert to ascii as '40' or '30' then it's 'X' or '9' variable respectively.
+     The result value should be '00'.
+     To the method doCopy of Copy class added additional check on equality field hex value to '00'.
+     
+### TODO 1.4 description
+
 ### 2018.12.21. SNAPSHOT '0.85.1.3' Issue: "Task-548 stream closing from cobol2json method in Cobol2JsonImpl.class"
     Method cobol2json(InputStream input, OutputStream output) closes output stream and we need reopen it each time.
     **Attention!** Now if you use Cobol2JsonImpl.cobol2json(InputStream input, OutputStream output) 
