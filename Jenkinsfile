@@ -56,10 +56,10 @@ pipeline {
                     sh 'git config credential.${origin}.username ${GIT_USERNAME}'
                     sh 'git config credential.${origin}.password ${GIT_PASSWORD}'
 
-                    checkout scm: [
-                            $class  : 'GitSCM',
-                            branches: [[name: 'artifacts']]
-                    ]
+                    sh 'git remote rm origin'
+                    sh 'git remote add origin https://github.com/PixarV/jrecord.git'
+                    sh 'git fetch'
+                    sh 'git branch -a'
 
                     sh 'git checkout artifacts || git checkout -b artifacts origin/artifacts'
                     sh 'git pull origin artifacts'
