@@ -448,11 +448,12 @@ public class Copy {
 	}
 
 	private static boolean isZeroString(String hexString) {
-		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < hexString.length(); i++) {
-			builder.append('0');
+			if (hexString.charAt(i) != '0') {
+				return false;
+			}
 		}
-		return hexString.equals(builder.toString());
+		return true;
 	}
 
 }
