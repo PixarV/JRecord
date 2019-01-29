@@ -64,7 +64,7 @@ pipeline {
 //                    sh 'git config credential.${origin}.username ${GIT_USERNAME}'
 //                    sh 'git config credential.${origin}.password ${GIT_PASSWORD}'
 
-                    sh 'git ls-remote --exit-code artifactory || git remote add artifactory git@github.com/PixarV/artifactory.git'
+                    sh 'git ls-remote --exit-code artifactory || git remote add artifactory git@github.com:PixarV/artifactory.git'
                     sh 'git fetch artifactory'
                     sh 'git branch -a'
 
@@ -75,7 +75,7 @@ pipeline {
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
-                    sh 'git push git@github.com/PixarV/artifactory.git artifacts'
+                    sh 'git push git@github.com:PixarV/artifactory.git artifacts'
                 }
             }
         }
