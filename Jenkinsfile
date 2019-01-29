@@ -1,19 +1,18 @@
 pipeline {
-    agent any
-    tools {
-        jdk 'Java11'
+    agent {
+        docker {
+            image 'openjdk'
+        }
     }
     environment {
-        JAVA_HOME = "${jdk}"
+        registryCredential = "github.pixarv"
     }
     stages {
         stage("Preparation") {
             steps {
-                checkout scm
                 sh './gradlew clean'
             }
         }
-
         stage("Compile project") {
             steps {
                 sh './gradlew compileJava'
@@ -21,7 +20,7 @@ pipeline {
         }
         stage("Test fast") {
             steps {
-                sh './gradlew test'
+                sh './gradlew check -x compileJava'
             }
         }
         stage("Test slow") {
@@ -34,7 +33,7 @@ pipeline {
         }
         stage("Assemble") {
             steps {
-                sh './gradlew assemble'
+                sh './gradlew assemble -x compileJava'
             }
         }
         stage('Publish artifacts and test results') {
@@ -46,29 +45,37 @@ pipeline {
         }
         stage('Push artifacts') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'brainydamage',
+                /*withCredentials([usernamePassword(credentialsId: 'brainydamage',
                         passwordVariable: 'GIT_PASSWORD',
-                        usernameVariable: 'GIT_USERNAME')]) {
+                        usernameVariable: 'GIT_USERNAME')])*/
 
-                    sh 'git config user.email "${GIT_USERNAME}@gmail.com"'
-                    sh 'git config user.name "${GIT_USERNAME}"'
 
-                    sh 'git config credential.${origin}.username ${GIT_USERNAME}'
-                    sh 'git config credential.${origin}.password ${GIT_PASSWORD}'
+/*                withCredentials([usernamePassword(credentialsId: "${registryCredential}",
+                        usernameVariable: 'USERNAME',
+                        passwordVariable: 'PASSWORD')])*/
 
-                    sh 'git remote rm origin'
-                    sh 'git remote add origin https://github.com/PixarV/jrecord.git'
-                    sh 'git fetch'
+                withCredentials([sshUserPrivateKey(
+                        credentialsId: "${registryCredential}",
+                        keyFileVariable: 'keyfile')]) {
+
+//                    sh 'git config user.email "${GIT_USERNAME}@gmail.com"'
+//                    sh 'git config user.name "${GIT_USERNAME}"'
+//
+//                    sh 'git config credential.${origin}.username ${GIT_USERNAME}'
+//                    sh 'git config credential.${origin}.password ${GIT_PASSWORD}'
+
+                    sh 'git ls-remote --exit-code artifactory || git remote add artifactory git@github.com/PixarV/artifactory.git'
+                    sh 'git fetch artifactory'
                     sh 'git branch -a'
 
-                    sh 'git checkout artifacts || git checkout -b artifacts origin/artifacts'
-                    sh 'git pull origin artifacts'
+                    sh 'git checkout artifacts || git checkout -b artifacts artifactory/artifacts'
+                    sh 'git pull artifactory artifacts'
 
                     sh 'cp -r tmp/* repos/'
 
                     sh 'git add repos/'
                     sh 'git commit -m "Jenkins build ${BUILD_ID} by branch ${BRANCH_NAME}"'
-                    sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/PixarV/jrecord.git artifacts'
+                    sh 'git push git@github.com/PixarV/artifactory.git artifacts'
                 }
             }
         }
