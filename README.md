@@ -3,6 +3,9 @@ from BRUCE A. MARTIN repository [repository](https://github.com/svn2github/jreco
 
 ## CURRENT VERSION: SNAPSHOT '0.85.1.2'
 
+### 2019.01.15 SNAPSHOT '0.85.1.6' Issue: "Task-28 allow JRecord read copybooks with IBM dialect"
+    Add support SKIP and EJECT words. Method getToken from Lexer changed by added aditional check.
+
 ### 2019.01.15 SNAPSHOT '0.85.1.5' Issue: "Task-552 ebcdic to ascii conversion bug with '00' hex value "
     '00' hex value convert to ascii as '40' or '30' then it's 'X' or '9' variable respectively.
      The result value should be '00'.

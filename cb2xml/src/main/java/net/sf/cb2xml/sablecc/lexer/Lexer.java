@@ -2,9 +2,94 @@
 
 package net.sf.cb2xml.sablecc.lexer;
 
-import java.io.*;
-import java.util.*;
-import net.sf.cb2xml.sablecc.node.*;
+import net.sf.cb2xml.sablecc.node.EOF;
+import net.sf.cb2xml.sablecc.node.TAll;
+import net.sf.cb2xml.sablecc.node.TAlphanumericLiteral;
+import net.sf.cb2xml.sablecc.node.TAre;
+import net.sf.cb2xml.sablecc.node.TAscending;
+import net.sf.cb2xml.sablecc.node.TBinary;
+import net.sf.cb2xml.sablecc.node.TBlank;
+import net.sf.cb2xml.sablecc.node.TBy;
+import net.sf.cb2xml.sablecc.node.TCharacter;
+import net.sf.cb2xml.sablecc.node.TComma;
+import net.sf.cb2xml.sablecc.node.TComment;
+import net.sf.cb2xml.sablecc.node.TComp;
+import net.sf.cb2xml.sablecc.node.TComp1;
+import net.sf.cb2xml.sablecc.node.TComp2;
+import net.sf.cb2xml.sablecc.node.TComp3;
+import net.sf.cb2xml.sablecc.node.TComp4;
+import net.sf.cb2xml.sablecc.node.TComp5;
+import net.sf.cb2xml.sablecc.node.TComp6;
+import net.sf.cb2xml.sablecc.node.TDataName;
+import net.sf.cb2xml.sablecc.node.TDate;
+import net.sf.cb2xml.sablecc.node.TDepending;
+import net.sf.cb2xml.sablecc.node.TDescending;
+import net.sf.cb2xml.sablecc.node.TDisplay;
+import net.sf.cb2xml.sablecc.node.TDisplay1;
+import net.sf.cb2xml.sablecc.node.TDollar;
+import net.sf.cb2xml.sablecc.node.TDot;
+import net.sf.cb2xml.sablecc.node.TDotMinus;
+import net.sf.cb2xml.sablecc.node.TDotPlus;
+import net.sf.cb2xml.sablecc.node.TDotZee;
+import net.sf.cb2xml.sablecc.node.TExternal;
+import net.sf.cb2xml.sablecc.node.TFiller;
+import net.sf.cb2xml.sablecc.node.TFormat;
+import net.sf.cb2xml.sablecc.node.TFunctionPointer;
+import net.sf.cb2xml.sablecc.node.TGlobal;
+import net.sf.cb2xml.sablecc.node.THighValues;
+import net.sf.cb2xml.sablecc.node.TIndex;
+import net.sf.cb2xml.sablecc.node.TIndexed;
+import net.sf.cb2xml.sablecc.node.TIs;
+import net.sf.cb2xml.sablecc.node.TJustified;
+import net.sf.cb2xml.sablecc.node.TKey;
+import net.sf.cb2xml.sablecc.node.TLeading;
+import net.sf.cb2xml.sablecc.node.TLeft;
+import net.sf.cb2xml.sablecc.node.TLowValues;
+import net.sf.cb2xml.sablecc.node.TLparen;
+import net.sf.cb2xml.sablecc.node.TMinus;
+import net.sf.cb2xml.sablecc.node.TNational;
+import net.sf.cb2xml.sablecc.node.TNative;
+import net.sf.cb2xml.sablecc.node.TNulls;
+import net.sf.cb2xml.sablecc.node.TNumber88;
+import net.sf.cb2xml.sablecc.node.TNumberNot88;
+import net.sf.cb2xml.sablecc.node.TNumericLiteral;
+import net.sf.cb2xml.sablecc.node.TObject;
+import net.sf.cb2xml.sablecc.node.TOccurs;
+import net.sf.cb2xml.sablecc.node.TOn;
+import net.sf.cb2xml.sablecc.node.TPackedDecimal;
+import net.sf.cb2xml.sablecc.node.TPicture;
+import net.sf.cb2xml.sablecc.node.TPlus;
+import net.sf.cb2xml.sablecc.node.TPointer;
+import net.sf.cb2xml.sablecc.node.TProcedurePointer;
+import net.sf.cb2xml.sablecc.node.TQuotes;
+import net.sf.cb2xml.sablecc.node.TRedefines;
+import net.sf.cb2xml.sablecc.node.TReference;
+import net.sf.cb2xml.sablecc.node.TRenames;
+import net.sf.cb2xml.sablecc.node.TRight;
+import net.sf.cb2xml.sablecc.node.TRparen;
+import net.sf.cb2xml.sablecc.node.TSeparate;
+import net.sf.cb2xml.sablecc.node.TSign;
+import net.sf.cb2xml.sablecc.node.TSlash;
+import net.sf.cb2xml.sablecc.node.TSpaces;
+import net.sf.cb2xml.sablecc.node.TStar;
+import net.sf.cb2xml.sablecc.node.TSynchronized;
+import net.sf.cb2xml.sablecc.node.TThrough;
+import net.sf.cb2xml.sablecc.node.TTimes;
+import net.sf.cb2xml.sablecc.node.TTo;
+import net.sf.cb2xml.sablecc.node.TTrailing;
+import net.sf.cb2xml.sablecc.node.TUnknown;
+import net.sf.cb2xml.sablecc.node.TUsage;
+import net.sf.cb2xml.sablecc.node.TValue;
+import net.sf.cb2xml.sablecc.node.TValues;
+import net.sf.cb2xml.sablecc.node.TWhen;
+import net.sf.cb2xml.sablecc.node.TWhiteSpaces;
+import net.sf.cb2xml.sablecc.node.TZeros;
+import net.sf.cb2xml.sablecc.node.Token;
+
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.PushbackReader;
 
 public class Lexer
 {
@@ -32,7 +117,7 @@ public class Lexer
             {
                 DataInputStream s = new DataInputStream(
                     new BufferedInputStream(
-                    Lexer.class.getResourceAsStream("/lexer.dat")));
+                        Lexer.class.getResourceAsStream("/lexer.dat")));
 
                 // read gotoTable
                 int length = s.readInt();
@@ -126,26 +211,26 @@ public class Lexer
             {
                 switch(c)
                 {
-                case 10:
-                    if(cr)
-                    {
-                        cr = false;
-                    }
-                    else
-                    {
+                    case 10:
+                        if(cr)
+                        {
+                            cr = false;
+                        }
+                        else
+                        {
+                            line++;
+                            pos = 0;
+                        }
+                        break;
+                    case 13:
                         line++;
                         pos = 0;
-                    }
-                    break;
-                case 13:
-                    line++;
-                    pos = 0;
-                    cr = true;
-                    break;
-                default:
-                    pos++;
-                    cr = false;
-                    break;
+                        cr = true;
+                        break;
+                    default:
+                        pos++;
+                        cr = false;
+                        break;
                 };
 
                 text.append((char) c);
@@ -203,7 +288,7 @@ public class Lexer
                 {
                     switch(accept_token)
                     {
-                    case 0:
+                        case 0:
                         {
                             Token token = new0(
                                 getText(accept_length),
@@ -214,7 +299,20 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 1:
+                        case 79:
+                        {
+                            if(!isIbmToken(accept_length)) {
+                                Token token = new79(
+                                    getText(accept_length),
+                                    start_line + 1,
+                                    start_pos + 1);
+                                pushBack(accept_length);
+                                pos = accept_pos;
+                                line = accept_line;
+                                return token;
+                            }
+                        }
+                        case 1:
                         {
                             Token token = new1(
                                 getText(accept_length),
@@ -225,7 +323,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 2:
+                        case 2:
                         {
                             Token token = new2(
                                 start_line + 1,
@@ -235,7 +333,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 3:
+                        case 3:
                         {
                             Token token = new3(
                                 start_line + 1,
@@ -245,7 +343,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 4:
+                        case 4:
                         {
                             Token token = new4(
                                 start_line + 1,
@@ -255,7 +353,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 5:
+                        case 5:
                         {
                             Token token = new5(
                                 start_line + 1,
@@ -265,7 +363,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 6:
+                        case 6:
                         {
                             Token token = new6(
                                 start_line + 1,
@@ -275,7 +373,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 7:
+                        case 7:
                         {
                             Token token = new7(
                                 start_line + 1,
@@ -285,7 +383,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 8:
+                        case 8:
                         {
                             Token token = new8(
                                 start_line + 1,
@@ -295,7 +393,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 9:
+                        case 9:
                         {
                             Token token = new9(
                                 start_line + 1,
@@ -305,7 +403,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 10:
+                        case 10:
                         {
                             Token token = new10(
                                 start_line + 1,
@@ -315,7 +413,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 11:
+                        case 11:
                         {
                             Token token = new11(
                                 getText(accept_length),
@@ -326,7 +424,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 12:
+                        case 12:
                         {
                             Token token = new12(
                                 getText(accept_length),
@@ -337,7 +435,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 13:
+                        case 13:
                         {
                             Token token = new13(
                                 getText(accept_length),
@@ -348,7 +446,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 14:
+                        case 14:
                         {
                             Token token = new14(
                                 getText(accept_length),
@@ -359,7 +457,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 15:
+                        case 15:
                         {
                             Token token = new15(
                                 getText(accept_length),
@@ -370,7 +468,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 16:
+                        case 16:
                         {
                             Token token = new16(
                                 getText(accept_length),
@@ -381,7 +479,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 17:
+                        case 17:
                         {
                             Token token = new17(
                                 getText(accept_length),
@@ -392,7 +490,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 18:
+                        case 18:
                         {
                             Token token = new18(
                                 getText(accept_length),
@@ -403,7 +501,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 19:
+                        case 19:
                         {
                             Token token = new19(
                                 getText(accept_length),
@@ -414,7 +512,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 20:
+                        case 20:
                         {
                             Token token = new20(
                                 getText(accept_length),
@@ -425,7 +523,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 21:
+                        case 21:
                         {
                             Token token = new21(
                                 getText(accept_length),
@@ -436,7 +534,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 22:
+                        case 22:
                         {
                             Token token = new22(
                                 getText(accept_length),
@@ -447,7 +545,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 23:
+                        case 23:
                         {
                             Token token = new23(
                                 getText(accept_length),
@@ -458,7 +556,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 24:
+                        case 24:
                         {
                             Token token = new24(
                                 getText(accept_length),
@@ -469,7 +567,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 25:
+                        case 25:
                         {
                             Token token = new25(
                                 getText(accept_length),
@@ -480,7 +578,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 26:
+                        case 26:
                         {
                             Token token = new26(
                                 getText(accept_length),
@@ -491,7 +589,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 27:
+                        case 27:
                         {
                             Token token = new27(
                                 getText(accept_length),
@@ -502,7 +600,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 28:
+                        case 28:
                         {
                             Token token = new28(
                                 getText(accept_length),
@@ -513,7 +611,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 29:
+                        case 29:
                         {
                             Token token = new29(
                                 getText(accept_length),
@@ -524,7 +622,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 30:
+                        case 30:
                         {
                             Token token = new30(
                                 getText(accept_length),
@@ -535,7 +633,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 31:
+                        case 31:
                         {
                             Token token = new31(
                                 getText(accept_length),
@@ -546,7 +644,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 32:
+                        case 32:
                         {
                             Token token = new32(
                                 getText(accept_length),
@@ -557,7 +655,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 33:
+                        case 33:
                         {
                             Token token = new33(
                                 getText(accept_length),
@@ -568,7 +666,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 34:
+                        case 34:
                         {
                             Token token = new34(
                                 getText(accept_length),
@@ -579,7 +677,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 35:
+                        case 35:
                         {
                             Token token = new35(
                                 getText(accept_length),
@@ -590,7 +688,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 36:
+                        case 36:
                         {
                             Token token = new36(
                                 getText(accept_length),
@@ -601,7 +699,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 37:
+                        case 37:
                         {
                             Token token = new37(
                                 getText(accept_length),
@@ -612,7 +710,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 38:
+                        case 38:
                         {
                             Token token = new38(
                                 getText(accept_length),
@@ -623,7 +721,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 39:
+                        case 39:
                         {
                             Token token = new39(
                                 getText(accept_length),
@@ -634,7 +732,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 40:
+                        case 40:
                         {
                             Token token = new40(
                                 getText(accept_length),
@@ -645,7 +743,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 41:
+                        case 41:
                         {
                             Token token = new41(
                                 getText(accept_length),
@@ -656,7 +754,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 42:
+                        case 42:
                         {
                             Token token = new42(
                                 getText(accept_length),
@@ -667,7 +765,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 43:
+                        case 43:
                         {
                             Token token = new43(
                                 getText(accept_length),
@@ -678,7 +776,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 44:
+                        case 44:
                         {
                             Token token = new44(
                                 getText(accept_length),
@@ -689,7 +787,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 45:
+                        case 45:
                         {
                             Token token = new45(
                                 getText(accept_length),
@@ -700,7 +798,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 46:
+                        case 46:
                         {
                             Token token = new46(
                                 getText(accept_length),
@@ -711,7 +809,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 47:
+                        case 47:
                         {
                             Token token = new47(
                                 getText(accept_length),
@@ -722,7 +820,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 48:
+                        case 48:
                         {
                             Token token = new48(
                                 getText(accept_length),
@@ -733,7 +831,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 49:
+                        case 49:
                         {
                             Token token = new49(
                                 getText(accept_length),
@@ -744,7 +842,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 50:
+                        case 50:
                         {
                             Token token = new50(
                                 getText(accept_length),
@@ -755,7 +853,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 51:
+                        case 51:
                         {
                             Token token = new51(
                                 getText(accept_length),
@@ -766,7 +864,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 52:
+                        case 52:
                         {
                             Token token = new52(
                                 getText(accept_length),
@@ -777,7 +875,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 53:
+                        case 53:
                         {
                             Token token = new53(
                                 getText(accept_length),
@@ -788,7 +886,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 54:
+                        case 54:
                         {
                             Token token = new54(
                                 getText(accept_length),
@@ -799,7 +897,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 55:
+                        case 55:
                         {
                             Token token = new55(
                                 getText(accept_length),
@@ -810,7 +908,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 56:
+                        case 56:
                         {
                             Token token = new56(
                                 getText(accept_length),
@@ -821,7 +919,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 57:
+                        case 57:
                         {
                             Token token = new57(
                                 getText(accept_length),
@@ -832,7 +930,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 58:
+                        case 58:
                         {
                             Token token = new58(
                                 getText(accept_length),
@@ -843,7 +941,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 59:
+                        case 59:
                         {
                             Token token = new59(
                                 getText(accept_length),
@@ -854,7 +952,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 60:
+                        case 60:
                         {
                             Token token = new60(
                                 getText(accept_length),
@@ -865,7 +963,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 61:
+                        case 61:
                         {
                             Token token = new61(
                                 getText(accept_length),
@@ -876,7 +974,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 62:
+                        case 62:
                         {
                             Token token = new62(
                                 getText(accept_length),
@@ -887,7 +985,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 63:
+                        case 63:
                         {
                             Token token = new63(
                                 getText(accept_length),
@@ -898,7 +996,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 64:
+                        case 64:
                         {
                             Token token = new64(
                                 getText(accept_length),
@@ -909,7 +1007,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 65:
+                        case 65:
                         {
                             Token token = new65(
                                 getText(accept_length),
@@ -920,7 +1018,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 66:
+                        case 66:
                         {
                             Token token = new66(
                                 getText(accept_length),
@@ -931,7 +1029,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 67:
+                        case 67:
                         {
                             Token token = new67(
                                 getText(accept_length),
@@ -942,7 +1040,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 68:
+                        case 68:
                         {
                             Token token = new68(
                                 getText(accept_length),
@@ -953,7 +1051,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 69:
+                        case 69:
                         {
                             Token token = new69(
                                 getText(accept_length),
@@ -964,7 +1062,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 70:
+                        case 70:
                         {
                             Token token = new70(
                                 getText(accept_length),
@@ -975,7 +1073,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 71:
+                        case 71:
                         {
                             Token token = new71(
                                 getText(accept_length),
@@ -986,7 +1084,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 72:
+                        case 72:
                         {
                             Token token = new72(
                                 getText(accept_length),
@@ -997,7 +1095,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 73:
+                        case 73:
                         {
                             Token token = new73(
                                 getText(accept_length),
@@ -1008,7 +1106,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 74:
+                        case 74:
                         {
                             Token token = new74(
                                 getText(accept_length),
@@ -1019,7 +1117,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 75:
+                        case 75:
                         {
                             Token token = new75(
                                 getText(accept_length),
@@ -1030,7 +1128,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 76:
+                        case 76:
                         {
                             Token token = new76(
                                 getText(accept_length),
@@ -1041,7 +1139,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 77:
+                        case 77:
                         {
                             Token token = new77(
                                 getText(accept_length),
@@ -1052,7 +1150,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 78:
+                        case 78:
                         {
                             Token token = new78(
                                 getText(accept_length),
@@ -1063,18 +1161,7 @@ public class Lexer
                             line = accept_line;
                             return token;
                         }
-                    case 79:
-                        {
-                            Token token = new79(
-                                getText(accept_length),
-                                start_line + 1,
-                                start_pos + 1);
-                            pushBack(accept_length);
-                            pos = accept_pos;
-                            line = accept_line;
-                            return token;
-                        }
-                    case 80:
+                        case 80:
                         {
                             Token token = new80(
                                 getText(accept_length),
@@ -1093,7 +1180,7 @@ public class Lexer
                     {
                         throw new LexerException(
                             "[" + (start_line + 1) + "," + (start_pos + 1) + "]" +
-                            " Unknown token: " + text);
+                                " Unknown token: " + text);
                     }
                     else
                     {
@@ -1105,6 +1192,13 @@ public class Lexer
                 }
             }
         }
+    }
+
+    private boolean isIbmToken(int accept_length) {
+        return getText(accept_length).equals("SKIP1") ||
+            getText(accept_length).equals("SKIP2") ||
+            getText(accept_length).equals("SKIP3") ||
+            getText(accept_length).equals("EJECT");
     }
 
     Token new0(String text, int line, int pos) { return new TWhiteSpaces(text, line, pos); }

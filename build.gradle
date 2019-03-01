@@ -7,7 +7,7 @@ subprojects {
     targetCompatibility = JavaVersion.VERSION_1_10
 
     //Last release version
-    version = '0.85.1.5'
+    version = '0.85.1.6'
     group = 'net.sf.JRecord'
     
     repositories {
