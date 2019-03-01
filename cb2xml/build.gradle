@@ -1,5 +1,9 @@
 version = '0.95.8'
 
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
 jar() {
     manifest {
         attributes 'Implementation-Title': 'cobol to xml lib',
